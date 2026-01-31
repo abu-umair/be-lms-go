@@ -44,3 +44,8 @@ go install github.com/air-verse/air@latest
 run: air
 https://www.youtube.com/watch?v=V7fY776aGgM
 ```
+
+## install shopspring/decimal untuk price/discount
+```bash
+go install github.com/air-verse/air@latest
+```

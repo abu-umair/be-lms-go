@@ -14,6 +14,7 @@ import (
 	"github.com/abu-umair/be-lms-go/internal/repository"
 	"github.com/abu-umair/be-lms-go/internal/utils"
 	"github.com/abu-umair/be-lms-go/pb/course"
+	"github.com/shopspring/decimal"
 )
 
 type ICourseService interface {
@@ -65,13 +66,57 @@ func (ss *courseService) CreateCourse(ctx context.Context, request *course.Creat
 	courseRepo := ss.courseRepository.WithTransaction(tx)
 
 	// *insert ke DB
+	var priceDecimal *decimal.Decimal
+	if request.Price != nil {
+		// Konversi string ke decimal
+		d, err := decimal.NewFromString(*request.Price)
+		if err != nil {
+			return &course.CreateCourseResponse{
+				Base: utils.BadRequestResponse("Invalid price format"),
+			}, nil
+		}
+		priceDecimal = &d
+	}
+
+	var discountDecimal *decimal.Decimal
+	if request.Price != nil {
+		d, err := decimal.NewFromString(*request.Discount)
+		if err != nil {
+			return &course.CreateCourseResponse{
+				Base: utils.BadRequestResponse("Invalid discount format"),
+			}, nil
+		}
+		discountDecimal = &d
+	}
+
 	courseEntity := entity.Course{
-		Id:            request.Id,
-		Name:          request.Name,
-		Address:       request.Address,
-		ImageFileName: request.ImageFileName,
-		CreatedAt:     time.Now(),
-		CreatedBy:     claims.FullName,
+		Id:                 request.Id,
+		Name:               request.Name,
+		Address:            request.Address,
+		ImageFileName:      request.ImageFileName,
+		Slug:               request.Slug,
+		UserId:             request.UserId,
+		CategoryId:         request.CategoryId,
+		CourseType:         request.CourseType,
+		SeoDescription:     request.SeoDescription,
+		Duration:           request.Duration,
+		Timezone:           request.Timezone,
+		Thumbnail:          request.Thumbnail,
+		DemoVideoStorage:   request.DemoVideoStorage,
+		DemoVideoSource:    request.DemoVideoSource,
+		Description:        request.Description,
+		Capacity:           request.Capacity,
+		Price:              priceDecimal,
+		Discount:           discountDecimal,
+		Certificate:        request.Certificate,
+		Gna:                request.Gna,
+		MessageForReviewer: request.MessageForReviewer,
+		IsApproved:         request.IsApproved,
+		CourseLevelId:      request.CourseLevelId,
+		CourseLanguageId:   request.CourseLanguageId,
+
+		CreatedAt: time.Now(),
+		CreatedBy: claims.FullName,
 	}
 
 	err = courseRepo.CreateNewCourse(ctx, &courseEntity)
