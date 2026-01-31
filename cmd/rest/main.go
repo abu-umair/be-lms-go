@@ -13,9 +13,9 @@ import (
 )
 
 func handleGetFileName(c *fiber.Ctx) error {
-	storeID := c.Params("store_id")
+	courseID := c.Params("course_id")
 	fileNameParam := c.Params("filename")
-	filePath := path.Join("storage", storeID, "store", fileNameParam)
+	filePath := path.Join("storage", courseID, "course", fileNameParam)
 	if _, err := os.Stat(filePath); err != nil {
 		if os.IsNotExist(err) {
 			return c.Status(http.StatusNotFound).SendString("Not Found")
@@ -44,9 +44,9 @@ func main() {
 	app := fiber.New()
 	app.Use(cors.New())
 
-	app.Get("/storage/:store_id/store/:filename", handleGetFileName)
+	app.Get("/storage/:course_id/course/:filename", handleGetFileName)
 
-	app.Post("/store/upload", handler.UploadStoreImageHandler)
+	app.Post("/course/upload", handler.UploadCourseImageHandler)
 
 	app.Listen(":3000")
 

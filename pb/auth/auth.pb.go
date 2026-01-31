@@ -7,15 +7,14 @@
 package auth
 
 import (
-	reflect "reflect"
-	sync "sync"
-	unsafe "unsafe"
-
 	_ "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
 	common "github.com/abu-umair/be-lms-go/pb/common"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
+	reflect "reflect"
+	sync "sync"
+	unsafe "unsafe"
 )
 
 const (
@@ -782,7 +781,7 @@ const file_auth_auth_proto_rawDesc = "" +
 	"GetProfile\x12\x17.auth.GetProfileRequest\x1a\x18.auth.GetProfileResponse\x123\n" +
 	"\x06Verify\x12\x13.auth.VerifyRequest\x1a\x14.auth.VerifyResponse\x12?\n" +
 	"\n" +
-	"RequestOTP\x12\x17.auth.RequestOTPRequest\x1a\x18.auth.RequestOTPResponseB1Z/github.com/abu-umair/be-lms-go/pb/authb\x06proto3"
+	"RequestOTP\x12\x17.auth.RequestOTPRequest\x1a\x18.auth.RequestOTPResponseB1Z/github.com/abu-umair/resto-microservice/pb/authb\x06proto3"
 
 var (
 	file_auth_auth_proto_rawDescOnce sync.Once

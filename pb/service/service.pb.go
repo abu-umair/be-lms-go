@@ -7,14 +7,13 @@
 package service
 
 import (
-	reflect "reflect"
-	sync "sync"
-	unsafe "unsafe"
-
 	_ "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
 	common "github.com/abu-umair/be-lms-go/pb/common"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	reflect "reflect"
+	sync "sync"
+	unsafe "unsafe"
 )
 
 const (
@@ -133,7 +132,7 @@ const file_service_service_proto_rawDesc = "" +
 	"\amessage\x18\x02 \x01(\tR\amessage2Z\n" +
 	"\x11HelloWorldService\x12E\n" +
 	"\n" +
-	"HelloWorld\x12\x1a.service.HelloWorldRequest\x1a\x1b.service.HelloWorldResponseB4Z2github.com/abu-umair/be-lms-go/pb/serviceb\x06proto3"
+	"HelloWorld\x12\x1a.service.HelloWorldRequest\x1a\x1b.service.HelloWorldResponseB+Z)github.com/abu-umair/be-lms-go/pb/serviceb\x06proto3"
 
 var (
 	file_service_service_proto_rawDescOnce sync.Once
