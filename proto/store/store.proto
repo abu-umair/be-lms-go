@@ -1,0 +1,86 @@
+syntax = "proto3";
+
+package store;
+
+import "common/base_response.proto";
+import "buf/validate/validate.proto";
+
+option go_package = "github.com/abu-umair/be-lms-go/pb/store";
+
+
+service StoreService {
+    rpc CreateStore (CreateStoreRequest) returns (CreateStoreResponse);
+    rpc DetailStore (DetailStoreRequest) returns (DetailStoreResponse);
+    rpc EditStore (EditStoreRequest) returns (EditStoreResponse);
+    rpc DeleteStore (DeleteStoreRequest) returns (DeleteStoreResponse);
+}
+
+message CreateStoreRequest {
+  string id = 1 [(buf.validate.field).string = { min_len: 1, max_len: 255 }];
+  string name = 2 [(buf.validate.field).string = {
+    min_len: 1, 
+    max_len: 255
+  }];
+
+  string address = 3 [(buf.validate.field).string = {
+    max_len: 1000 
+  }];
+  
+  string image_file_name = 4 [(buf.validate.field).string = { 
+    min_len: 1, max_len: 255
+  }];
+
+}
+
+message CreateStoreResponse {
+  common.BaseResponse base = 1;
+  string id = 2;
+//   string name = 3;
+//   string address = 4;
+
+}
+
+message DetailStoreRequest {
+  string id = 1 [(buf.validate.field).string = { min_len: 1, max_len: 255 }];
+}
+
+message DetailStoreResponse {
+  common.BaseResponse base = 1;
+  string id = 2;
+  string name = 3;
+  string address = 4;
+  string image_file_name = 5;
+}
+
+message EditStoreRequest {
+  string id = 1 [(buf.validate.field).string = { min_len: 1, max_len: 255 }];
+  string name = 2 [(buf.validate.field).string = {
+    min_len: 1, 
+    max_len: 255
+  }];
+
+  string address = 3 [(buf.validate.field).string = {
+    max_len: 1000 
+  }];
+  
+  string image_file_name = 4 [(buf.validate.field).string = { 
+    min_len: 1, max_len: 255
+  }];
+
+}
+
+message EditStoreResponse {
+  common.BaseResponse base = 1;
+  string id = 2;
+//   string name = 3;
+//   string address = 4;
+
+}
+
+message DeleteStoreRequest {
+  string id = 1 [(buf.validate.field).string = { min_len: 1, max_len: 255 }];
+}
+
+message DeleteStoreResponse {
+  common.BaseResponse base = 1;
+}
