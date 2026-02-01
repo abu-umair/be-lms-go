@@ -4,6 +4,8 @@ import (
 	"context"
 	"database/sql"
 	"errors"
+	"fmt"
+	"strings"
 	"time"
 
 	"github.com/abu-umair/be-lms-go/internal/entity"
@@ -15,6 +17,7 @@ type ICourseRepository interface {
 	WithTransaction(tx *sqlx.Tx) ICourseRepository
 	CreateNewCourse(ctx context.Context, course *entity.Course) error
 	GetCourseById(ctx context.Context, courseId string) (*entity.Course, error)
+	GetCourseByIdFieldMask(ctx context.Context, courseId string, paths []string) (*entity.Course, error)
 	UpdateCourse(ctx context.Context, course *entity.Course) error
 	DeleteCourse(ctx context.Context, id string, deletedAt time.Time, deletedBy string) error
 }
@@ -77,6 +80,53 @@ func (sr *courseRepository) GetCourseById(ctx context.Context, courseId string) 
 	}
 
 	return &courseEntity, nil
+}
+
+func (sr *courseRepository) GetCourseByIdFieldMask(ctx context.Context, courseId string, paths []string) (*entity.Course, error) {
+	var courseEntity entity.Course
+
+	// 1. Tentukan kolom yang akan di-select
+	selectedColumns := "*" // Default jika paths kosong
+	if len(paths) > 0 {
+		// Validasi agar hanya kolom yang ada di struct yang di-select
+		// Ini penting untuk keamanan!
+		validColumns := sr.validateColumns(paths)
+		if len(validColumns) > 0 {
+			selectedColumns = strings.Join(validColumns, ", ")
+		}
+	}
+
+	// 2. Tentukan query dengan kolom dinamis
+	query := fmt.Sprintf(`SELECT %s FROM courses WHERE id = $1 AND deleted_at IS NULL`, selectedColumns)
+
+	// 3. Gunakan GetContext (sqlx tetap bisa memetakan meskipun kolomnya cuma sedikit)
+	err := sr.db.GetContext(ctx, &courseEntity, query, courseId)
+
+	if err != nil {
+		// 3. Tangani jika data tidak ditemukan
+		if errors.Is(err, sql.ErrNoRows) {
+			return nil, err
+		}
+		return nil, err
+	}
+
+	return &courseEntity, nil
+}
+
+// Helper untuk validasi nama kolom (Whitelist)
+func (sr *courseRepository) validateColumns(paths []string) []string {
+	// Daftar kolom yang diizinkan sesuai tag db di struct
+	whitelist := map[string]bool{
+		"id": true, "name": true, "address": true, "image_file_name": true, "price": true,
+	}
+
+	var valid []string
+	for _, p := range paths {
+		if whitelist[p] {
+			valid = append(valid, p)
+		}
+	}
+	return valid
 }
 
 func (sr *courseRepository) UpdateCourse(ctx context.Context, course *entity.Course) error {

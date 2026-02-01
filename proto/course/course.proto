@@ -4,6 +4,7 @@ package course;
 
 import "common/base_response.proto";
 import "buf/validate/validate.proto";
+import "google/protobuf/field_mask.proto";
 
 option go_package = "github.com/abu-umair/be-lms-go/pb/course";
 
@@ -54,14 +55,15 @@ message CreateCourseResponse {
 
 message DetailCourseRequest {
   string id = 1 [(buf.validate.field).string = { min_len: 1, max_len: 255 }];
+  google.protobuf.FieldMask field_mask = 2;
 }
 
 message DetailCourseResponse {
   common.BaseResponse base = 1;
   string id = 2;
-  string name = 3;
-  string address = 4;
-  string image_file_name = 5;
+  optional string name = 3;
+  optional string address = 4;
+  optional string image_file_name = 5;
 }
 
 message EditCourseRequest {

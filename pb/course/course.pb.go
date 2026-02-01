@@ -11,6 +11,7 @@ import (
 	common "github.com/abu-umair/be-lms-go/pb/common"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
@@ -322,6 +323,7 @@ func (x *CreateCourseResponse) GetId() string {
 type DetailCourseRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	FieldMask     *fieldmaskpb.FieldMask `protobuf:"bytes,2,opt,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -363,13 +365,20 @@ func (x *DetailCourseRequest) GetId() string {
 	return ""
 }
 
+func (x *DetailCourseRequest) GetFieldMask() *fieldmaskpb.FieldMask {
+	if x != nil {
+		return x.FieldMask
+	}
+	return nil
+}
+
 type DetailCourseResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Base          *common.BaseResponse   `protobuf:"bytes,1,opt,name=base,proto3" json:"base,omitempty"`
 	Id            string                 `protobuf:"bytes,2,opt,name=id,proto3" json:"id,omitempty"`
-	Name          string                 `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
-	Address       string                 `protobuf:"bytes,4,opt,name=address,proto3" json:"address,omitempty"`
-	ImageFileName string                 `protobuf:"bytes,5,opt,name=image_file_name,json=imageFileName,proto3" json:"image_file_name,omitempty"`
+	Name          *string                `protobuf:"bytes,3,opt,name=name,proto3,oneof" json:"name,omitempty"`
+	Address       *string                `protobuf:"bytes,4,opt,name=address,proto3,oneof" json:"address,omitempty"`
+	ImageFileName *string                `protobuf:"bytes,5,opt,name=image_file_name,json=imageFileName,proto3,oneof" json:"image_file_name,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -419,22 +428,22 @@ func (x *DetailCourseResponse) GetId() string {
 }
 
 func (x *DetailCourseResponse) GetName() string {
-	if x != nil {
-		return x.Name
+	if x != nil && x.Name != nil {
+		return *x.Name
 	}
 	return ""
 }
 
 func (x *DetailCourseResponse) GetAddress() string {
-	if x != nil {
-		return x.Address
+	if x != nil && x.Address != nil {
+		return *x.Address
 	}
 	return ""
 }
 
 func (x *DetailCourseResponse) GetImageFileName() string {
-	if x != nil {
-		return x.ImageFileName
+	if x != nil && x.ImageFileName != nil {
+		return *x.ImageFileName
 	}
 	return ""
 }
@@ -651,7 +660,7 @@ var File_course_course_proto protoreflect.FileDescriptor
 
 const file_course_course_proto_rawDesc = "" +
 	"\n" +
-	"\x13course/course.proto\x12\x06course\x1a\x1acommon/base_response.proto\x1a\x1bbuf/validate/validate.proto\"\xb4\f\n" +
+	"\x13course/course.proto\x12\x06course\x1a\x1acommon/base_response.proto\x1a\x1bbuf/validate/validate.proto\x1a google/protobuf/field_mask.proto\"\xb4\f\n" +
 	"\x13CreateCourseRequest\x12\x1a\n" +
 	"\x02id\x18\x01 \x01(\tB\n" +
 	"\xbaH\ar\x05\x10\x01\x18\xff\x01R\x02id\x12\x1e\n" +
@@ -713,16 +722,22 @@ const file_course_course_proto_rawDesc = "" +
 	"\b_user_id\"P\n" +
 	"\x14CreateCourseResponse\x12(\n" +
 	"\x04base\x18\x01 \x01(\v2\x14.common.BaseResponseR\x04base\x12\x0e\n" +
-	"\x02id\x18\x02 \x01(\tR\x02id\"1\n" +
+	"\x02id\x18\x02 \x01(\tR\x02id\"l\n" +
 	"\x13DetailCourseRequest\x12\x1a\n" +
 	"\x02id\x18\x01 \x01(\tB\n" +
-	"\xbaH\ar\x05\x10\x01\x18\xff\x01R\x02id\"\xa6\x01\n" +
+	"\xbaH\ar\x05\x10\x01\x18\xff\x01R\x02id\x129\n" +
+	"\n" +
+	"field_mask\x18\x02 \x01(\v2\x1a.google.protobuf.FieldMaskR\tfieldMask\"\xde\x01\n" +
 	"\x14DetailCourseResponse\x12(\n" +
 	"\x04base\x18\x01 \x01(\v2\x14.common.BaseResponseR\x04base\x12\x0e\n" +
-	"\x02id\x18\x02 \x01(\tR\x02id\x12\x12\n" +
-	"\x04name\x18\x03 \x01(\tR\x04name\x12\x18\n" +
-	"\aaddress\x18\x04 \x01(\tR\aaddress\x12&\n" +
-	"\x0fimage_file_name\x18\x05 \x01(\tR\rimageFileName\"\xa7\x01\n" +
+	"\x02id\x18\x02 \x01(\tR\x02id\x12\x17\n" +
+	"\x04name\x18\x03 \x01(\tH\x00R\x04name\x88\x01\x01\x12\x1d\n" +
+	"\aaddress\x18\x04 \x01(\tH\x01R\aaddress\x88\x01\x01\x12+\n" +
+	"\x0fimage_file_name\x18\x05 \x01(\tH\x02R\rimageFileName\x88\x01\x01B\a\n" +
+	"\x05_nameB\n" +
+	"\n" +
+	"\b_addressB\x12\n" +
+	"\x10_image_file_name\"\xa7\x01\n" +
 	"\x11EditCourseRequest\x12\x1a\n" +
 	"\x02id\x18\x01 \x01(\tB\n" +
 	"\xbaH\ar\x05\x10\x01\x18\xff\x01R\x02id\x12\x1e\n" +
@@ -760,34 +775,36 @@ func file_course_course_proto_rawDescGZIP() []byte {
 
 var file_course_course_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
 var file_course_course_proto_goTypes = []any{
-	(*CreateCourseRequest)(nil),  // 0: course.CreateCourseRequest
-	(*CreateCourseResponse)(nil), // 1: course.CreateCourseResponse
-	(*DetailCourseRequest)(nil),  // 2: course.DetailCourseRequest
-	(*DetailCourseResponse)(nil), // 3: course.DetailCourseResponse
-	(*EditCourseRequest)(nil),    // 4: course.EditCourseRequest
-	(*EditCourseResponse)(nil),   // 5: course.EditCourseResponse
-	(*DeleteCourseRequest)(nil),  // 6: course.DeleteCourseRequest
-	(*DeleteCourseResponse)(nil), // 7: course.DeleteCourseResponse
-	(*common.BaseResponse)(nil),  // 8: common.BaseResponse
+	(*CreateCourseRequest)(nil),   // 0: course.CreateCourseRequest
+	(*CreateCourseResponse)(nil),  // 1: course.CreateCourseResponse
+	(*DetailCourseRequest)(nil),   // 2: course.DetailCourseRequest
+	(*DetailCourseResponse)(nil),  // 3: course.DetailCourseResponse
+	(*EditCourseRequest)(nil),     // 4: course.EditCourseRequest
+	(*EditCourseResponse)(nil),    // 5: course.EditCourseResponse
+	(*DeleteCourseRequest)(nil),   // 6: course.DeleteCourseRequest
+	(*DeleteCourseResponse)(nil),  // 7: course.DeleteCourseResponse
+	(*common.BaseResponse)(nil),   // 8: common.BaseResponse
+	(*fieldmaskpb.FieldMask)(nil), // 9: google.protobuf.FieldMask
 }
 var file_course_course_proto_depIdxs = []int32{
 	8, // 0: course.CreateCourseResponse.base:type_name -> common.BaseResponse
-	8, // 1: course.DetailCourseResponse.base:type_name -> common.BaseResponse
-	8, // 2: course.EditCourseResponse.base:type_name -> common.BaseResponse
-	8, // 3: course.DeleteCourseResponse.base:type_name -> common.BaseResponse
-	0, // 4: course.CourseService.CreateCourse:input_type -> course.CreateCourseRequest
-	2, // 5: course.CourseService.DetailCourse:input_type -> course.DetailCourseRequest
-	4, // 6: course.CourseService.EditCourse:input_type -> course.EditCourseRequest
-	6, // 7: course.CourseService.DeleteCourse:input_type -> course.DeleteCourseRequest
-	1, // 8: course.CourseService.CreateCourse:output_type -> course.CreateCourseResponse
-	3, // 9: course.CourseService.DetailCourse:output_type -> course.DetailCourseResponse
-	5, // 10: course.CourseService.EditCourse:output_type -> course.EditCourseResponse
-	7, // 11: course.CourseService.DeleteCourse:output_type -> course.DeleteCourseResponse
-	8, // [8:12] is the sub-list for method output_type
-	4, // [4:8] is the sub-list for method input_type
-	4, // [4:4] is the sub-list for extension type_name
-	4, // [4:4] is the sub-list for extension extendee
-	0, // [0:4] is the sub-list for field type_name
+	9, // 1: course.DetailCourseRequest.field_mask:type_name -> google.protobuf.FieldMask
+	8, // 2: course.DetailCourseResponse.base:type_name -> common.BaseResponse
+	8, // 3: course.EditCourseResponse.base:type_name -> common.BaseResponse
+	8, // 4: course.DeleteCourseResponse.base:type_name -> common.BaseResponse
+	0, // 5: course.CourseService.CreateCourse:input_type -> course.CreateCourseRequest
+	2, // 6: course.CourseService.DetailCourse:input_type -> course.DetailCourseRequest
+	4, // 7: course.CourseService.EditCourse:input_type -> course.EditCourseRequest
+	6, // 8: course.CourseService.DeleteCourse:input_type -> course.DeleteCourseRequest
+	1, // 9: course.CourseService.CreateCourse:output_type -> course.CreateCourseResponse
+	3, // 10: course.CourseService.DetailCourse:output_type -> course.DetailCourseResponse
+	5, // 11: course.CourseService.EditCourse:output_type -> course.EditCourseResponse
+	7, // 12: course.CourseService.DeleteCourse:output_type -> course.DeleteCourseResponse
+	9, // [9:13] is the sub-list for method output_type
+	5, // [5:9] is the sub-list for method input_type
+	5, // [5:5] is the sub-list for extension type_name
+	5, // [5:5] is the sub-list for extension extendee
+	0, // [0:5] is the sub-list for field type_name
 }
 
 func init() { file_course_course_proto_init() }
@@ -796,6 +813,7 @@ func file_course_course_proto_init() {
 		return
 	}
 	file_course_course_proto_msgTypes[0].OneofWrappers = []any{}
+	file_course_course_proto_msgTypes[3].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{

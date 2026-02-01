@@ -161,7 +161,13 @@ func (ss *courseService) DetailCourse(ctx context.Context, request *course.Detai
 	}
 
 	// * Get course by course_id
-	courseEntity, err := ss.courseRepository.GetCourseById(ctx, request.Id)
+	// Misal request.FieldMask.Paths berisi ["name", "address"]
+	paths := []string{"id"} // ID wajib ada untuk mapping
+	if request.FieldMask != nil {
+		paths = append(paths, request.FieldMask.Paths...)
+	}
+
+	courseEntity, err := ss.courseRepository.GetCourseByIdFieldMask(ctx, request.Id, paths)
 	if err != nil {
 		return nil, err
 	}
@@ -174,13 +180,22 @@ func (ss *courseService) DetailCourse(ctx context.Context, request *course.Detai
 	}
 
 	// *success
-	return &course.DetailCourseResponse{
-		Base:          utils.SuccessResponse("Course Detail Success"),
-		Id:            courseEntity.Id,
-		Name:          courseEntity.Name,
-		Address:       courseEntity.Address,
-		ImageFileName: fmt.Sprintf("%s/%s/course/%s", os.Getenv("STORAGE_SERVICE_URL"), courseEntity.Id, courseEntity.ImageFileName),
-	}, nil
+	res := &course.DetailCourseResponse{
+		Base: utils.SuccessResponse("Course Detail Success"),
+		Id:   courseEntity.Id,
+	}
+
+	// Cek Name: Jika kosong (tidak di-select), res.Name tetap nil (tidak muncul di JSON)
+	res.Name = utils.StringToPtr(courseEntity.Name)
+	res.Address = utils.StringToPtr(courseEntity.Address)
+
+	// khusus image: Cek dulu apakah ImageFileName ada di database
+	if courseEntity.ImageFileName != "" {
+		fullUrl := fmt.Sprintf("%s/%s/course/%s", os.Getenv("STORAGE_SERVICE_URL"), courseEntity.Id, courseEntity.ImageFileName)
+		res.ImageFileName = &fullUrl
+	}
+
+	return res, nil
 }
 
 func (ss *courseService) EditCourse(ctx context.Context, request *course.EditCourseRequest) (*course.EditCourseResponse, error) {
