@@ -2,15 +2,14 @@ package database
 
 import (
 	"context"
-	"database/sql"
 
+	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"
 )
 
-
-func ConnectDB(ctx context.Context, connStr string) *sql.DB { //?menerima sebua string dan mengembalikan sql.DB
+func ConnectDB(ctx context.Context, connStr string) *sqlx.DB { //?menerima sebua string dan mengembalikan sql.DB
 	{
-		db, err := sql.Open("postgres", connStr) //?membuka koneksi ke database, mereturn db, err
+		db, err := sqlx.Open("postgres", connStr) //?membuka koneksi ke database, mereturn db, err
 		if err != nil {
 			panic(err)
 		}

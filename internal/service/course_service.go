@@ -2,7 +2,6 @@ package service
 
 import (
 	"context"
-	"database/sql"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -14,6 +13,7 @@ import (
 	"github.com/abu-umair/be-lms-go/internal/repository"
 	"github.com/abu-umair/be-lms-go/internal/utils"
 	"github.com/abu-umair/be-lms-go/pb/course"
+	"github.com/jmoiron/sqlx"
 	"github.com/shopspring/decimal"
 )
 
@@ -25,7 +25,7 @@ type ICourseService interface {
 }
 
 type courseService struct {
-	db               *sql.DB
+	db               *sqlx.DB
 	courseRepository repository.ICourseRepository
 }
 
@@ -41,7 +41,7 @@ func (ss *courseService) CreateCourse(ctx context.Context, request *course.Creat
 		return nil, utils.UnauthenticatedResponse()
 	}
 
-	tx, err := ss.db.Begin()
+	tx, err := ss.db.BeginTxx(ctx, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -206,7 +206,7 @@ func (ss *courseService) EditCourse(ctx context.Context, request *course.EditCou
 		}, nil
 	}
 
-	tx, err := ss.db.Begin()
+	tx, err := ss.db.BeginTxx(ctx, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -300,7 +300,7 @@ func (ss *courseService) DeleteCourse(ctx context.Context, request *course.Delet
 		}, nil
 	}
 
-	tx, err := ss.db.Begin()
+	tx, err := ss.db.BeginTxx(ctx, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -351,7 +351,7 @@ func (ss *courseService) DeleteCourse(ctx context.Context, request *course.Delet
 	}, nil
 }
 
-func NewCourseService(db *sql.DB, courseRepository repository.ICourseRepository) ICourseService {
+func NewCourseService(db *sqlx.DB, courseRepository repository.ICourseRepository) ICourseService {
 	return &courseService{
 		db:               db,
 		courseRepository: courseRepository,

@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/abu-umair/be-lms-go/internal/entity"
+	"github.com/jmoiron/sqlx"
 )
 
 type IAuthRepository interface {
@@ -22,7 +23,7 @@ type IAuthRepository interface {
 }
 
 type authRepository struct {
-	db *sql.DB //?Menyimpan koneksi database
+	db *sqlx.DB //?Menyimpan koneksi database
 }
 
 func (ar *authRepository) GetUserByEmail(ctx context.Context, email string) (*entity.Users, error) {
@@ -131,6 +132,6 @@ func (ar *authRepository) DeleteOTP(ctx context.Context, email string) error {
 	return err
 }
 
-func NewAuthRepository(db *sql.DB) IAuthRepository {
+func NewAuthRepository(db *sqlx.DB) IAuthRepository {
 	return &authRepository{db: db}
 }
