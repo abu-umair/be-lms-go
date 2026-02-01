@@ -1,10 +1,13 @@
 package utils
 
-import "github.com/shopspring/decimal"
+import (
+	"time"
+
+	"github.com/shopspring/decimal"
+)
 
 // StringToPtr mengubah string menjadi pointer string.
-// Jika string kosong (""), maka mengembalikan nil.
-// Ini sangat berguna untuk field 'optional' di gRPC.
+// Jika kosong, return nil agar tidak muncul di JSON gRPC (optional).
 func StringToPtr(s string) *string {
 	if s == "" {
 		return nil
@@ -12,19 +15,57 @@ func StringToPtr(s string) *string {
 	return &s
 }
 
-// Int64ToPtr mengubah int64 menjadi pointer int64.
-// Jika nilainya 0, Anda bisa memilih mengembalikan nil atau tetap pointernya.
-// Di sini kita asumsikan jika 0 tetap dikirim, kecuali nilainya nil di DB.
+// PtrStringToPtr menangani field yang sudah *string di struct.
+// Berguna untuk meneruskan nilai pointer dari DB langsung ke Response.
+func PtrStringToPtr(s *string) *string {
+	if s == nil || *s == "" {
+		return nil
+	}
+	return s
+}
+
+// Int64ToPtr mengubah int64 menjadi pointer.
 func Int64ToPtr(i int64) *int64 {
 	return &i
 }
 
-// DecimalToPtr mengubah decimal.Decimal menjadi pointer string (untuk gRPC).
-// Karena gRPC tidak punya tipe Decimal, biasanya kita kirim sebagai string.
+// PtrInt64ToPtr menangani *int64 (seperti field Capacity).
+func PtrInt64ToPtr(i *int64) *int64 {
+	return i
+}
+
+// DecimalToPtr mengubah decimal.Decimal menjadi pointer string (format gRPC).
 func DecimalToPtr(d decimal.Decimal) *string {
 	if d.IsZero() {
 		return nil
 	}
 	s := d.String()
+	return &s
+}
+
+// PtrDecimalToPtr menangani *decimal.Decimal (seperti field Price & Discount).
+func PtrDecimalToPtr(d *decimal.Decimal) *string {
+	if d == nil || d.IsZero() {
+		return nil
+	}
+	s := d.String()
+	return &s
+}
+
+// TimeToPtr mengubah time.Time menjadi string pointer (format ISO8601).
+func TimeToPtr(t time.Time) *string {
+	if t.IsZero() {
+		return nil
+	}
+	s := t.Format(time.RFC3339)
+	return &s
+}
+
+// PtrTimeToPtr menangani *time.Time (seperti field DeletedAt).
+func PtrTimeToPtr(t *time.Time) *string {
+	if t == nil || t.IsZero() {
+		return nil
+	}
+	s := t.Format(time.RFC3339)
 	return &s
 }

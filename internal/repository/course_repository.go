@@ -24,6 +24,8 @@ type ICourseRepository interface {
 
 type courseRepository struct {
 	db database.DatabaseQuery
+	// Kita simpan di sini agar tidak perlu buat map berulang-ulang di setiap request
+	whitelist map[string]bool
 }
 
 func (ss *courseRepository) WithTransaction(tx *sqlx.Tx) ICourseRepository {
@@ -88,9 +90,14 @@ func (sr *courseRepository) GetCourseByIdFieldMask(ctx context.Context, courseId
 	// 1. Tentukan kolom yang akan di-select
 	selectedColumns := "*" // Default jika paths kosong
 	if len(paths) > 0 {
-		// Validasi agar hanya kolom yang ada di struct yang di-select
-		// Ini penting untuk keamanan!
-		validColumns := sr.validateColumns(paths)
+		var validColumns []string
+		for _, p := range paths {
+			// Cek apakah kolom yang diminta ada di whitelist kita
+			if sr.whitelist[p] {
+				validColumns = append(validColumns, p)
+			}
+		}
+
 		if len(validColumns) > 0 {
 			selectedColumns = strings.Join(validColumns, ", ")
 		}
@@ -111,22 +118,6 @@ func (sr *courseRepository) GetCourseByIdFieldMask(ctx context.Context, courseId
 	}
 
 	return &courseEntity, nil
-}
-
-// Helper untuk validasi nama kolom (Whitelist)
-func (sr *courseRepository) validateColumns(paths []string) []string {
-	// Daftar kolom yang diizinkan sesuai tag db di struct
-	whitelist := map[string]bool{
-		"id": true, "name": true, "address": true, "image_file_name": true, "price": true,
-	}
-
-	var valid []string
-	for _, p := range paths {
-		if whitelist[p] {
-			valid = append(valid, p)
-		}
-	}
-	return valid
 }
 
 func (sr *courseRepository) UpdateCourse(ctx context.Context, course *entity.Course) error {
@@ -166,5 +157,19 @@ func (sr *courseRepository) DeleteCourse(ctx context.Context, id string, deleted
 }
 
 func NewCourseRepository(db database.DatabaseQuery) ICourseRepository {
-	return &courseRepository{db: db}
+	return &courseRepository{
+		db: db,
+		whitelist: map[string]bool{
+			"id": true, "name": true, "address": true, "image_file_name": true,
+			"created_at": true, "created_by": true, "updated_at": true,
+			"updated_by": true, "deleted_at": true, "deleted_by": true,
+			"slug": true, "user_id": true, "category_id": true,
+			"course_type": true, "seo_description": true, "duration": true,
+			"timezone": true, "thumbnail": true, "demo_video_storage": true,
+			"demo_video_source": true, "description": true, "capacity": true,
+			"price": true, "discount": true, "certificate": true,
+			"gna": true, "message_for_reviewer": true, "is_approved": true,
+			"status": true, "course_level_id": true, "course_language_id": true,
+		},
+	}
 }

@@ -186,10 +186,44 @@ func (ss *courseService) DetailCourse(ctx context.Context, request *course.Detai
 	}
 
 	// Cek Name: Jika kosong (tidak di-select), res.Name tetap nil (tidak muncul di JSON)
+	//? Mapping Field String Biasa (Non-Pointer di Struct)
 	res.Name = utils.StringToPtr(courseEntity.Name)
 	res.Address = utils.StringToPtr(courseEntity.Address)
+	res.CreatedBy = utils.StringToPtr(courseEntity.CreatedBy)
 
-	// khusus image: Cek dulu apakah ImageFileName ada di database
+	//?Mapping Field Pointer String (*string di Struct)
+	res.Slug = utils.PtrStringToPtr(courseEntity.Slug)
+	res.UserId = utils.PtrStringToPtr(courseEntity.UserId)
+	res.CategoryId = utils.PtrStringToPtr(courseEntity.CategoryId)
+	res.CourseType = utils.PtrStringToPtr(courseEntity.CourseType)
+	res.SeoDescription = utils.PtrStringToPtr(courseEntity.SeoDescription)
+	res.Duration = utils.PtrStringToPtr(courseEntity.Duration)
+	res.Timezone = utils.PtrStringToPtr(courseEntity.Timezone)
+	res.Thumbnail = utils.PtrStringToPtr(courseEntity.Thumbnail)
+	res.DemoVideoStorage = utils.PtrStringToPtr(courseEntity.DemoVideoStorage)
+	res.DemoVideoSource = utils.PtrStringToPtr(courseEntity.DemoVideoSource)
+	res.Description = utils.PtrStringToPtr(courseEntity.Description)
+	res.Certificate = utils.PtrStringToPtr(courseEntity.Certificate)
+	res.Gna = utils.PtrStringToPtr(courseEntity.Gna)
+	res.MessageForReviewer = utils.PtrStringToPtr(courseEntity.MessageForReviewer)
+	res.IsApproved = utils.PtrStringToPtr(courseEntity.IsApproved)
+	res.Status = utils.PtrStringToPtr(courseEntity.Status)
+	res.CourseLevelId = utils.PtrStringToPtr(courseEntity.CourseLevelId)
+	res.CourseLanguageId = utils.PtrStringToPtr(courseEntity.CourseLanguageId)
+	res.UpdatedBy = utils.PtrStringToPtr(courseEntity.UpdatedBy)
+	res.DeletedBy = utils.PtrStringToPtr(courseEntity.DeletedBy)
+
+	//? Mapping Angka dan Harga (Int64 & Decimal)
+	res.Capacity = utils.PtrInt64ToPtr(courseEntity.Capacity)
+	res.Price = utils.PtrDecimalToPtr(courseEntity.Price)
+	res.Discount = utils.PtrDecimalToPtr(courseEntity.Discount)
+
+	//? Mapping Waktu (Time)
+	res.CreatedAt = utils.TimeToPtr(courseEntity.CreatedAt)
+	res.UpdatedAt = utils.TimeToPtr(courseEntity.UpdatedAt)
+	res.DeletedAt = utils.PtrTimeToPtr(courseEntity.DeletedAt)
+
+	//? khusus image: Cek dulu apakah ImageFileName ada di database
 	if courseEntity.ImageFileName != "" {
 		fullUrl := fmt.Sprintf("%s/%s/course/%s", os.Getenv("STORAGE_SERVICE_URL"), courseEntity.Id, courseEntity.ImageFileName)
 		res.ImageFileName = &fullUrl

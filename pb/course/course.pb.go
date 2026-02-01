@@ -373,14 +373,42 @@ func (x *DetailCourseRequest) GetFieldMask() *fieldmaskpb.FieldMask {
 }
 
 type DetailCourseResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Base          *common.BaseResponse   `protobuf:"bytes,1,opt,name=base,proto3" json:"base,omitempty"`
-	Id            string                 `protobuf:"bytes,2,opt,name=id,proto3" json:"id,omitempty"`
-	Name          *string                `protobuf:"bytes,3,opt,name=name,proto3,oneof" json:"name,omitempty"`
-	Address       *string                `protobuf:"bytes,4,opt,name=address,proto3,oneof" json:"address,omitempty"`
-	ImageFileName *string                `protobuf:"bytes,5,opt,name=image_file_name,json=imageFileName,proto3,oneof" json:"image_file_name,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state              protoimpl.MessageState `protogen:"open.v1"`
+	Base               *common.BaseResponse   `protobuf:"bytes,1,opt,name=base,proto3" json:"base,omitempty"`
+	Id                 string                 `protobuf:"bytes,2,opt,name=id,proto3" json:"id,omitempty"`
+	Name               *string                `protobuf:"bytes,3,opt,name=name,proto3,oneof" json:"name,omitempty"`
+	Address            *string                `protobuf:"bytes,4,opt,name=address,proto3,oneof" json:"address,omitempty"`
+	Slug               *string                `protobuf:"bytes,5,opt,name=slug,proto3,oneof" json:"slug,omitempty"`
+	CategoryId         *string                `protobuf:"bytes,6,opt,name=category_id,json=categoryId,proto3,oneof" json:"category_id,omitempty"`
+	CourseType         *string                `protobuf:"bytes,7,opt,name=course_type,json=courseType,proto3,oneof" json:"course_type,omitempty"`
+	Title              *string                `protobuf:"bytes,8,opt,name=title,proto3,oneof" json:"title,omitempty"`
+	SeoDescription     *string                `protobuf:"bytes,9,opt,name=seo_description,json=seoDescription,proto3,oneof" json:"seo_description,omitempty"`
+	Duration           *string                `protobuf:"bytes,10,opt,name=duration,proto3,oneof" json:"duration,omitempty"`
+	Timezone           *string                `protobuf:"bytes,11,opt,name=timezone,proto3,oneof" json:"timezone,omitempty"`
+	Thumbnail          *string                `protobuf:"bytes,12,opt,name=thumbnail,proto3,oneof" json:"thumbnail,omitempty"`
+	DemoVideoStorage   *string                `protobuf:"bytes,13,opt,name=demo_video_storage,json=demoVideoStorage,proto3,oneof" json:"demo_video_storage,omitempty"`
+	DemoVideoSource    *string                `protobuf:"bytes,14,opt,name=demo_video_source,json=demoVideoSource,proto3,oneof" json:"demo_video_source,omitempty"`
+	Description        *string                `protobuf:"bytes,15,opt,name=description,proto3,oneof" json:"description,omitempty"`
+	Capacity           *int64                 `protobuf:"varint,16,opt,name=capacity,proto3,oneof" json:"capacity,omitempty"`
+	Price              *string                `protobuf:"bytes,17,opt,name=price,proto3,oneof" json:"price,omitempty"`
+	Discount           *string                `protobuf:"bytes,18,opt,name=discount,proto3,oneof" json:"discount,omitempty"`
+	Certificate        *string                `protobuf:"bytes,19,opt,name=certificate,proto3,oneof" json:"certificate,omitempty"`
+	Gna                *string                `protobuf:"bytes,20,opt,name=gna,proto3,oneof" json:"gna,omitempty"`
+	MessageForReviewer *string                `protobuf:"bytes,21,opt,name=message_for_reviewer,json=messageForReviewer,proto3,oneof" json:"message_for_reviewer,omitempty"`
+	IsApproved         *string                `protobuf:"bytes,22,opt,name=is_approved,json=isApproved,proto3,oneof" json:"is_approved,omitempty"`
+	Status             *string                `protobuf:"bytes,23,opt,name=status,proto3,oneof" json:"status,omitempty"`
+	CourseLevelId      *string                `protobuf:"bytes,24,opt,name=course_level_id,json=courseLevelId,proto3,oneof" json:"course_level_id,omitempty"`
+	CourseLanguageId   *string                `protobuf:"bytes,25,opt,name=course_language_id,json=courseLanguageId,proto3,oneof" json:"course_language_id,omitempty"`
+	UserId             *string                `protobuf:"bytes,26,opt,name=user_id,json=userId,proto3,oneof" json:"user_id,omitempty"`
+	CreatedAt          *string                `protobuf:"bytes,27,opt,name=created_at,json=createdAt,proto3,oneof" json:"created_at,omitempty"`
+	CreatedBy          *string                `protobuf:"bytes,28,opt,name=created_by,json=createdBy,proto3,oneof" json:"created_by,omitempty"`
+	DeletedBy          *string                `protobuf:"bytes,29,opt,name=deleted_by,json=deletedBy,proto3,oneof" json:"deleted_by,omitempty"`
+	UpdatedAt          *string                `protobuf:"bytes,30,opt,name=updated_at,json=updatedAt,proto3,oneof" json:"updated_at,omitempty"`
+	UpdatedBy          *string                `protobuf:"bytes,31,opt,name=updated_by,json=updatedBy,proto3,oneof" json:"updated_by,omitempty"`
+	DeletedAt          *string                `protobuf:"bytes,32,opt,name=deleted_at,json=deletedAt,proto3,oneof" json:"deleted_at,omitempty"`
+	ImageFileName      *string                `protobuf:"bytes,33,opt,name=image_file_name,json=imageFileName,proto3,oneof" json:"image_file_name,omitempty"`
+	unknownFields      protoimpl.UnknownFields
+	sizeCache          protoimpl.SizeCache
 }
 
 func (x *DetailCourseResponse) Reset() {
@@ -437,6 +465,202 @@ func (x *DetailCourseResponse) GetName() string {
 func (x *DetailCourseResponse) GetAddress() string {
 	if x != nil && x.Address != nil {
 		return *x.Address
+	}
+	return ""
+}
+
+func (x *DetailCourseResponse) GetSlug() string {
+	if x != nil && x.Slug != nil {
+		return *x.Slug
+	}
+	return ""
+}
+
+func (x *DetailCourseResponse) GetCategoryId() string {
+	if x != nil && x.CategoryId != nil {
+		return *x.CategoryId
+	}
+	return ""
+}
+
+func (x *DetailCourseResponse) GetCourseType() string {
+	if x != nil && x.CourseType != nil {
+		return *x.CourseType
+	}
+	return ""
+}
+
+func (x *DetailCourseResponse) GetTitle() string {
+	if x != nil && x.Title != nil {
+		return *x.Title
+	}
+	return ""
+}
+
+func (x *DetailCourseResponse) GetSeoDescription() string {
+	if x != nil && x.SeoDescription != nil {
+		return *x.SeoDescription
+	}
+	return ""
+}
+
+func (x *DetailCourseResponse) GetDuration() string {
+	if x != nil && x.Duration != nil {
+		return *x.Duration
+	}
+	return ""
+}
+
+func (x *DetailCourseResponse) GetTimezone() string {
+	if x != nil && x.Timezone != nil {
+		return *x.Timezone
+	}
+	return ""
+}
+
+func (x *DetailCourseResponse) GetThumbnail() string {
+	if x != nil && x.Thumbnail != nil {
+		return *x.Thumbnail
+	}
+	return ""
+}
+
+func (x *DetailCourseResponse) GetDemoVideoStorage() string {
+	if x != nil && x.DemoVideoStorage != nil {
+		return *x.DemoVideoStorage
+	}
+	return ""
+}
+
+func (x *DetailCourseResponse) GetDemoVideoSource() string {
+	if x != nil && x.DemoVideoSource != nil {
+		return *x.DemoVideoSource
+	}
+	return ""
+}
+
+func (x *DetailCourseResponse) GetDescription() string {
+	if x != nil && x.Description != nil {
+		return *x.Description
+	}
+	return ""
+}
+
+func (x *DetailCourseResponse) GetCapacity() int64 {
+	if x != nil && x.Capacity != nil {
+		return *x.Capacity
+	}
+	return 0
+}
+
+func (x *DetailCourseResponse) GetPrice() string {
+	if x != nil && x.Price != nil {
+		return *x.Price
+	}
+	return ""
+}
+
+func (x *DetailCourseResponse) GetDiscount() string {
+	if x != nil && x.Discount != nil {
+		return *x.Discount
+	}
+	return ""
+}
+
+func (x *DetailCourseResponse) GetCertificate() string {
+	if x != nil && x.Certificate != nil {
+		return *x.Certificate
+	}
+	return ""
+}
+
+func (x *DetailCourseResponse) GetGna() string {
+	if x != nil && x.Gna != nil {
+		return *x.Gna
+	}
+	return ""
+}
+
+func (x *DetailCourseResponse) GetMessageForReviewer() string {
+	if x != nil && x.MessageForReviewer != nil {
+		return *x.MessageForReviewer
+	}
+	return ""
+}
+
+func (x *DetailCourseResponse) GetIsApproved() string {
+	if x != nil && x.IsApproved != nil {
+		return *x.IsApproved
+	}
+	return ""
+}
+
+func (x *DetailCourseResponse) GetStatus() string {
+	if x != nil && x.Status != nil {
+		return *x.Status
+	}
+	return ""
+}
+
+func (x *DetailCourseResponse) GetCourseLevelId() string {
+	if x != nil && x.CourseLevelId != nil {
+		return *x.CourseLevelId
+	}
+	return ""
+}
+
+func (x *DetailCourseResponse) GetCourseLanguageId() string {
+	if x != nil && x.CourseLanguageId != nil {
+		return *x.CourseLanguageId
+	}
+	return ""
+}
+
+func (x *DetailCourseResponse) GetUserId() string {
+	if x != nil && x.UserId != nil {
+		return *x.UserId
+	}
+	return ""
+}
+
+func (x *DetailCourseResponse) GetCreatedAt() string {
+	if x != nil && x.CreatedAt != nil {
+		return *x.CreatedAt
+	}
+	return ""
+}
+
+func (x *DetailCourseResponse) GetCreatedBy() string {
+	if x != nil && x.CreatedBy != nil {
+		return *x.CreatedBy
+	}
+	return ""
+}
+
+func (x *DetailCourseResponse) GetDeletedBy() string {
+	if x != nil && x.DeletedBy != nil {
+		return *x.DeletedBy
+	}
+	return ""
+}
+
+func (x *DetailCourseResponse) GetUpdatedAt() string {
+	if x != nil && x.UpdatedAt != nil {
+		return *x.UpdatedAt
+	}
+	return ""
+}
+
+func (x *DetailCourseResponse) GetUpdatedBy() string {
+	if x != nil && x.UpdatedBy != nil {
+		return *x.UpdatedBy
+	}
+	return ""
+}
+
+func (x *DetailCourseResponse) GetDeletedAt() string {
+	if x != nil && x.DeletedAt != nil {
+		return *x.DeletedAt
 	}
 	return ""
 }
@@ -727,16 +951,85 @@ const file_course_course_proto_rawDesc = "" +
 	"\x02id\x18\x01 \x01(\tB\n" +
 	"\xbaH\ar\x05\x10\x01\x18\xff\x01R\x02id\x129\n" +
 	"\n" +
-	"field_mask\x18\x02 \x01(\v2\x1a.google.protobuf.FieldMaskR\tfieldMask\"\xde\x01\n" +
+	"field_mask\x18\x02 \x01(\v2\x1a.google.protobuf.FieldMaskR\tfieldMask\"\x94\r\n" +
 	"\x14DetailCourseResponse\x12(\n" +
 	"\x04base\x18\x01 \x01(\v2\x14.common.BaseResponseR\x04base\x12\x0e\n" +
 	"\x02id\x18\x02 \x01(\tR\x02id\x12\x17\n" +
 	"\x04name\x18\x03 \x01(\tH\x00R\x04name\x88\x01\x01\x12\x1d\n" +
-	"\aaddress\x18\x04 \x01(\tH\x01R\aaddress\x88\x01\x01\x12+\n" +
-	"\x0fimage_file_name\x18\x05 \x01(\tH\x02R\rimageFileName\x88\x01\x01B\a\n" +
+	"\aaddress\x18\x04 \x01(\tH\x01R\aaddress\x88\x01\x01\x12\x17\n" +
+	"\x04slug\x18\x05 \x01(\tH\x02R\x04slug\x88\x01\x01\x12$\n" +
+	"\vcategory_id\x18\x06 \x01(\tH\x03R\n" +
+	"categoryId\x88\x01\x01\x12$\n" +
+	"\vcourse_type\x18\a \x01(\tH\x04R\n" +
+	"courseType\x88\x01\x01\x12\x19\n" +
+	"\x05title\x18\b \x01(\tH\x05R\x05title\x88\x01\x01\x12,\n" +
+	"\x0fseo_description\x18\t \x01(\tH\x06R\x0eseoDescription\x88\x01\x01\x12\x1f\n" +
+	"\bduration\x18\n" +
+	" \x01(\tH\aR\bduration\x88\x01\x01\x12\x1f\n" +
+	"\btimezone\x18\v \x01(\tH\bR\btimezone\x88\x01\x01\x12!\n" +
+	"\tthumbnail\x18\f \x01(\tH\tR\tthumbnail\x88\x01\x01\x121\n" +
+	"\x12demo_video_storage\x18\r \x01(\tH\n" +
+	"R\x10demoVideoStorage\x88\x01\x01\x12/\n" +
+	"\x11demo_video_source\x18\x0e \x01(\tH\vR\x0fdemoVideoSource\x88\x01\x01\x12%\n" +
+	"\vdescription\x18\x0f \x01(\tH\fR\vdescription\x88\x01\x01\x12\x1f\n" +
+	"\bcapacity\x18\x10 \x01(\x03H\rR\bcapacity\x88\x01\x01\x12\x19\n" +
+	"\x05price\x18\x11 \x01(\tH\x0eR\x05price\x88\x01\x01\x12\x1f\n" +
+	"\bdiscount\x18\x12 \x01(\tH\x0fR\bdiscount\x88\x01\x01\x12%\n" +
+	"\vcertificate\x18\x13 \x01(\tH\x10R\vcertificate\x88\x01\x01\x12\x15\n" +
+	"\x03gna\x18\x14 \x01(\tH\x11R\x03gna\x88\x01\x01\x125\n" +
+	"\x14message_for_reviewer\x18\x15 \x01(\tH\x12R\x12messageForReviewer\x88\x01\x01\x12$\n" +
+	"\vis_approved\x18\x16 \x01(\tH\x13R\n" +
+	"isApproved\x88\x01\x01\x12\x1b\n" +
+	"\x06status\x18\x17 \x01(\tH\x14R\x06status\x88\x01\x01\x12+\n" +
+	"\x0fcourse_level_id\x18\x18 \x01(\tH\x15R\rcourseLevelId\x88\x01\x01\x121\n" +
+	"\x12course_language_id\x18\x19 \x01(\tH\x16R\x10courseLanguageId\x88\x01\x01\x12\x1c\n" +
+	"\auser_id\x18\x1a \x01(\tH\x17R\x06userId\x88\x01\x01\x12\"\n" +
+	"\n" +
+	"created_at\x18\x1b \x01(\tH\x18R\tcreatedAt\x88\x01\x01\x12\"\n" +
+	"\n" +
+	"created_by\x18\x1c \x01(\tH\x19R\tcreatedBy\x88\x01\x01\x12\"\n" +
+	"\n" +
+	"deleted_by\x18\x1d \x01(\tH\x1aR\tdeletedBy\x88\x01\x01\x12\"\n" +
+	"\n" +
+	"updated_at\x18\x1e \x01(\tH\x1bR\tupdatedAt\x88\x01\x01\x12\"\n" +
+	"\n" +
+	"updated_by\x18\x1f \x01(\tH\x1cR\tupdatedBy\x88\x01\x01\x12\"\n" +
+	"\n" +
+	"deleted_at\x18  \x01(\tH\x1dR\tdeletedAt\x88\x01\x01\x12+\n" +
+	"\x0fimage_file_name\x18! \x01(\tH\x1eR\rimageFileName\x88\x01\x01B\a\n" +
 	"\x05_nameB\n" +
 	"\n" +
-	"\b_addressB\x12\n" +
+	"\b_addressB\a\n" +
+	"\x05_slugB\x0e\n" +
+	"\f_category_idB\x0e\n" +
+	"\f_course_typeB\b\n" +
+	"\x06_titleB\x12\n" +
+	"\x10_seo_descriptionB\v\n" +
+	"\t_durationB\v\n" +
+	"\t_timezoneB\f\n" +
+	"\n" +
+	"_thumbnailB\x15\n" +
+	"\x13_demo_video_storageB\x14\n" +
+	"\x12_demo_video_sourceB\x0e\n" +
+	"\f_descriptionB\v\n" +
+	"\t_capacityB\b\n" +
+	"\x06_priceB\v\n" +
+	"\t_discountB\x0e\n" +
+	"\f_certificateB\x06\n" +
+	"\x04_gnaB\x17\n" +
+	"\x15_message_for_reviewerB\x0e\n" +
+	"\f_is_approvedB\t\n" +
+	"\a_statusB\x12\n" +
+	"\x10_course_level_idB\x15\n" +
+	"\x13_course_language_idB\n" +
+	"\n" +
+	"\b_user_idB\r\n" +
+	"\v_created_atB\r\n" +
+	"\v_created_byB\r\n" +
+	"\v_deleted_byB\r\n" +
+	"\v_updated_atB\r\n" +
+	"\v_updated_byB\r\n" +
+	"\v_deleted_atB\x12\n" +
 	"\x10_image_file_name\"\xa7\x01\n" +
 	"\x11EditCourseRequest\x12\x1a\n" +
 	"\x02id\x18\x01 \x01(\tB\n" +

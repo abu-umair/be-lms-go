@@ -63,7 +63,35 @@ message DetailCourseResponse {
   string id = 2;
   optional string name = 3;
   optional string address = 4;
-  optional string image_file_name = 5;
+  optional string slug = 5;
+  optional string category_id = 6;
+  optional string course_type = 7;
+  optional string title = 8;
+  optional string seo_description = 9;
+  optional string duration = 10;
+  optional string timezone = 11;
+  optional string thumbnail = 12;
+  optional string demo_video_storage = 13;
+  optional string demo_video_source = 14;
+  optional string description = 15;
+  optional int64 capacity = 16;
+  optional string price = 17;
+  optional string discount = 18;
+  optional string certificate = 19;
+  optional string gna = 20;
+  optional string message_for_reviewer = 21;
+  optional string is_approved = 22;
+  optional string status = 23;
+  optional string course_level_id = 24;
+  optional string course_language_id = 25;
+  optional string user_id = 26;
+  optional string created_at = 27;
+  optional string created_by = 28;
+  optional string deleted_by = 29;
+  optional string updated_at = 30;
+  optional string updated_by = 31;
+  optional string deleted_at = 32;
+  optional string image_file_name = 33;
 }
 
 message EditCourseRequest {
