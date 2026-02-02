@@ -18,7 +18,7 @@ type Course struct {
 	DeletedAt          *time.Time       `db:"deleted_at"`
 	DeletedBy          *string          `db:"deleted_by"`
 	Slug               *string          `db:"slug"`
-	UserId             *string          `db:"user_id"`
+	InstructorId       *string          `db:"instructor_id"`
 	CategoryId         *string          `db:"category_id"`
 	CourseType         *string          `db:"course_type"`
 	SeoDescription     *string          `db:"seo_description"`

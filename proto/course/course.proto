@@ -42,7 +42,7 @@ message CreateCourseRequest {
   optional string status = 23 [(buf.validate.field).string = { max_len: 255 }];
   optional string course_level_id = 24 [(buf.validate.field).string = { max_len: 255 }];
   optional string course_language_id = 25 [(buf.validate.field).string = { max_len: 255 }];
-  optional string user_id = 26 [(buf.validate.field).string = { max_len: 255 }];
+  optional string instructor_id = 26 [(buf.validate.field).string = { max_len: 255 }];
 }
 
 message CreateCourseResponse {
@@ -84,7 +84,7 @@ message DetailCourseResponse {
   optional string status = 23;
   optional string course_level_id = 24;
   optional string course_language_id = 25;
-  optional string user_id = 26;
+  optional string instructor_id = 26;
   optional string created_at = 27;
   optional string created_by = 28;
   optional string deleted_by = 29;
@@ -120,7 +120,7 @@ message EditCourseRequest {
   optional string status = 23 [(buf.validate.field).string = { max_len: 255 }];
   optional string course_level_id = 24 [(buf.validate.field).string = { max_len: 255 }];
   optional string course_language_id = 25 [(buf.validate.field).string = { max_len: 255 }];
-  optional string user_id = 26 [(buf.validate.field).string = { max_len: 255 }];
+  optional string instructor_id = 26 [(buf.validate.field).string = { max_len: 255 }];
 }
 
 message EditCourseResponse {

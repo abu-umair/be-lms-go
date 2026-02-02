@@ -95,7 +95,7 @@ func (ss *courseService) CreateCourse(ctx context.Context, request *course.Creat
 		Address:            request.Address,
 		ImageFileName:      request.ImageFileName,
 		Slug:               request.Slug,
-		UserId:             request.UserId,
+		InstructorId:       request.InstructorId,
 		CategoryId:         request.CategoryId,
 		CourseType:         request.CourseType,
 		SeoDescription:     request.SeoDescription,
@@ -193,7 +193,7 @@ func (ss *courseService) DetailCourse(ctx context.Context, request *course.Detai
 
 	//?Mapping Field Pointer String (*string di Struct)
 	res.Slug = utils.PtrStringToPtr(courseEntity.Slug)
-	res.UserId = utils.PtrStringToPtr(courseEntity.UserId)
+	res.InstructorId = utils.PtrStringToPtr(courseEntity.InstructorId)
 	res.CategoryId = utils.PtrStringToPtr(courseEntity.CategoryId)
 	res.CourseType = utils.PtrStringToPtr(courseEntity.CourseType)
 	res.SeoDescription = utils.PtrStringToPtr(courseEntity.SeoDescription)
@@ -309,7 +309,7 @@ func (ss *courseService) EditCourse(ctx context.Context, request *course.EditCou
 		Address:            request.Address,
 		ImageFileName:      request.ImageFileName,
 		Slug:               request.Slug,
-		UserId:             request.UserId,
+		InstructorId:       request.InstructorId,
 		CategoryId:         request.CategoryId,
 		CourseType:         request.CourseType,
 		SeoDescription:     request.SeoDescription,

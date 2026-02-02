@@ -51,7 +51,7 @@ type CreateCourseRequest struct {
 	Status             *string                `protobuf:"bytes,23,opt,name=status,proto3,oneof" json:"status,omitempty"`
 	CourseLevelId      *string                `protobuf:"bytes,24,opt,name=course_level_id,json=courseLevelId,proto3,oneof" json:"course_level_id,omitempty"`
 	CourseLanguageId   *string                `protobuf:"bytes,25,opt,name=course_language_id,json=courseLanguageId,proto3,oneof" json:"course_language_id,omitempty"`
-	UserId             *string                `protobuf:"bytes,26,opt,name=user_id,json=userId,proto3,oneof" json:"user_id,omitempty"`
+	InstructorId       *string                `protobuf:"bytes,26,opt,name=instructor_id,json=instructorId,proto3,oneof" json:"instructor_id,omitempty"`
 	unknownFields      protoimpl.UnknownFields
 	sizeCache          protoimpl.SizeCache
 }
@@ -261,9 +261,9 @@ func (x *CreateCourseRequest) GetCourseLanguageId() string {
 	return ""
 }
 
-func (x *CreateCourseRequest) GetUserId() string {
-	if x != nil && x.UserId != nil {
-		return *x.UserId
+func (x *CreateCourseRequest) GetInstructorId() string {
+	if x != nil && x.InstructorId != nil {
+		return *x.InstructorId
 	}
 	return ""
 }
@@ -399,7 +399,7 @@ type DetailCourseResponse struct {
 	Status             *string                `protobuf:"bytes,23,opt,name=status,proto3,oneof" json:"status,omitempty"`
 	CourseLevelId      *string                `protobuf:"bytes,24,opt,name=course_level_id,json=courseLevelId,proto3,oneof" json:"course_level_id,omitempty"`
 	CourseLanguageId   *string                `protobuf:"bytes,25,opt,name=course_language_id,json=courseLanguageId,proto3,oneof" json:"course_language_id,omitempty"`
-	UserId             *string                `protobuf:"bytes,26,opt,name=user_id,json=userId,proto3,oneof" json:"user_id,omitempty"`
+	InstructorId       *string                `protobuf:"bytes,26,opt,name=instructor_id,json=instructorId,proto3,oneof" json:"instructor_id,omitempty"`
 	CreatedAt          *string                `protobuf:"bytes,27,opt,name=created_at,json=createdAt,proto3,oneof" json:"created_at,omitempty"`
 	CreatedBy          *string                `protobuf:"bytes,28,opt,name=created_by,json=createdBy,proto3,oneof" json:"created_by,omitempty"`
 	DeletedBy          *string                `protobuf:"bytes,29,opt,name=deleted_by,json=deletedBy,proto3,oneof" json:"deleted_by,omitempty"`
@@ -616,9 +616,9 @@ func (x *DetailCourseResponse) GetCourseLanguageId() string {
 	return ""
 }
 
-func (x *DetailCourseResponse) GetUserId() string {
-	if x != nil && x.UserId != nil {
-		return *x.UserId
+func (x *DetailCourseResponse) GetInstructorId() string {
+	if x != nil && x.InstructorId != nil {
+		return *x.InstructorId
 	}
 	return ""
 }
@@ -699,7 +699,7 @@ type EditCourseRequest struct {
 	Status             *string                `protobuf:"bytes,23,opt,name=status,proto3,oneof" json:"status,omitempty"`
 	CourseLevelId      *string                `protobuf:"bytes,24,opt,name=course_level_id,json=courseLevelId,proto3,oneof" json:"course_level_id,omitempty"`
 	CourseLanguageId   *string                `protobuf:"bytes,25,opt,name=course_language_id,json=courseLanguageId,proto3,oneof" json:"course_language_id,omitempty"`
-	UserId             *string                `protobuf:"bytes,26,opt,name=user_id,json=userId,proto3,oneof" json:"user_id,omitempty"`
+	InstructorId       *string                `protobuf:"bytes,26,opt,name=instructor_id,json=instructorId,proto3,oneof" json:"instructor_id,omitempty"`
 	unknownFields      protoimpl.UnknownFields
 	sizeCache          protoimpl.SizeCache
 }
@@ -909,9 +909,9 @@ func (x *EditCourseRequest) GetCourseLanguageId() string {
 	return ""
 }
 
-func (x *EditCourseRequest) GetUserId() string {
-	if x != nil && x.UserId != nil {
-		return *x.UserId
+func (x *EditCourseRequest) GetInstructorId() string {
+	if x != nil && x.InstructorId != nil {
+		return *x.InstructorId
 	}
 	return ""
 }
@@ -1060,7 +1060,7 @@ var File_course_course_proto protoreflect.FileDescriptor
 
 const file_course_course_proto_rawDesc = "" +
 	"\n" +
-	"\x13course/course.proto\x12\x06course\x1a\x1acommon/base_response.proto\x1a\x1bbuf/validate/validate.proto\x1a google/protobuf/field_mask.proto\"\xb4\f\n" +
+	"\x13course/course.proto\x12\x06course\x1a\x1acommon/base_response.proto\x1a\x1bbuf/validate/validate.proto\x1a google/protobuf/field_mask.proto\"\xc6\f\n" +
 	"\x13CreateCourseRequest\x12\x1a\n" +
 	"\x02id\x18\x01 \x01(\tB\n" +
 	"\xbaH\ar\x05\x10\x01\x18\xff\x01R\x02id\x12\x1e\n" +
@@ -1094,8 +1094,8 @@ const file_course_course_proto_rawDesc = "" +
 	"isApproved\x88\x01\x01\x12%\n" +
 	"\x06status\x18\x17 \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\x12R\x06status\x88\x01\x01\x125\n" +
 	"\x0fcourse_level_id\x18\x18 \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\x13R\rcourseLevelId\x88\x01\x01\x12;\n" +
-	"\x12course_language_id\x18\x19 \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\x14R\x10courseLanguageId\x88\x01\x01\x12&\n" +
-	"\auser_id\x18\x1a \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\x15R\x06userId\x88\x01\x01B\a\n" +
+	"\x12course_language_id\x18\x19 \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\x14R\x10courseLanguageId\x88\x01\x01\x122\n" +
+	"\rinstructor_id\x18\x1a \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\x15R\finstructorId\x88\x01\x01B\a\n" +
 	"\x05_slugB\x0e\n" +
 	"\f_category_idB\x0e\n" +
 	"\f_course_typeB\b\n" +
@@ -1117,9 +1117,8 @@ const file_course_course_proto_rawDesc = "" +
 	"\f_is_approvedB\t\n" +
 	"\a_statusB\x12\n" +
 	"\x10_course_level_idB\x15\n" +
-	"\x13_course_language_idB\n" +
-	"\n" +
-	"\b_user_id\"P\n" +
+	"\x13_course_language_idB\x10\n" +
+	"\x0e_instructor_id\"P\n" +
 	"\x14CreateCourseResponse\x12(\n" +
 	"\x04base\x18\x01 \x01(\v2\x14.common.BaseResponseR\x04base\x12\x0e\n" +
 	"\x02id\x18\x02 \x01(\tR\x02id\"l\n" +
@@ -1127,7 +1126,7 @@ const file_course_course_proto_rawDesc = "" +
 	"\x02id\x18\x01 \x01(\tB\n" +
 	"\xbaH\ar\x05\x10\x01\x18\xff\x01R\x02id\x129\n" +
 	"\n" +
-	"field_mask\x18\x02 \x01(\v2\x1a.google.protobuf.FieldMaskR\tfieldMask\"\x94\r\n" +
+	"field_mask\x18\x02 \x01(\v2\x1a.google.protobuf.FieldMaskR\tfieldMask\"\xa6\r\n" +
 	"\x14DetailCourseResponse\x12(\n" +
 	"\x04base\x18\x01 \x01(\v2\x14.common.BaseResponseR\x04base\x12\x0e\n" +
 	"\x02id\x18\x02 \x01(\tR\x02id\x12\x17\n" +
@@ -1158,8 +1157,8 @@ const file_course_course_proto_rawDesc = "" +
 	"isApproved\x88\x01\x01\x12\x1b\n" +
 	"\x06status\x18\x17 \x01(\tH\x14R\x06status\x88\x01\x01\x12+\n" +
 	"\x0fcourse_level_id\x18\x18 \x01(\tH\x15R\rcourseLevelId\x88\x01\x01\x121\n" +
-	"\x12course_language_id\x18\x19 \x01(\tH\x16R\x10courseLanguageId\x88\x01\x01\x12\x1c\n" +
-	"\auser_id\x18\x1a \x01(\tH\x17R\x06userId\x88\x01\x01\x12\"\n" +
+	"\x12course_language_id\x18\x19 \x01(\tH\x16R\x10courseLanguageId\x88\x01\x01\x12(\n" +
+	"\rinstructor_id\x18\x1a \x01(\tH\x17R\finstructorId\x88\x01\x01\x12\"\n" +
 	"\n" +
 	"created_at\x18\x1b \x01(\tH\x18R\tcreatedAt\x88\x01\x01\x12\"\n" +
 	"\n" +
@@ -1197,16 +1196,15 @@ const file_course_course_proto_rawDesc = "" +
 	"\f_is_approvedB\t\n" +
 	"\a_statusB\x12\n" +
 	"\x10_course_level_idB\x15\n" +
-	"\x13_course_language_idB\n" +
-	"\n" +
-	"\b_user_idB\r\n" +
+	"\x13_course_language_idB\x10\n" +
+	"\x0e_instructor_idB\r\n" +
 	"\v_created_atB\r\n" +
 	"\v_created_byB\r\n" +
 	"\v_deleted_byB\r\n" +
 	"\v_updated_atB\r\n" +
 	"\v_updated_byB\r\n" +
 	"\v_deleted_atB\x12\n" +
-	"\x10_image_file_name\"\xb2\f\n" +
+	"\x10_image_file_name\"\xc4\f\n" +
 	"\x11EditCourseRequest\x12\x1a\n" +
 	"\x02id\x18\x01 \x01(\tB\n" +
 	"\xbaH\ar\x05\x10\x01\x18\xff\x01R\x02id\x12\x1e\n" +
@@ -1240,8 +1238,8 @@ const file_course_course_proto_rawDesc = "" +
 	"isApproved\x88\x01\x01\x12%\n" +
 	"\x06status\x18\x17 \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\x12R\x06status\x88\x01\x01\x125\n" +
 	"\x0fcourse_level_id\x18\x18 \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\x13R\rcourseLevelId\x88\x01\x01\x12;\n" +
-	"\x12course_language_id\x18\x19 \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\x14R\x10courseLanguageId\x88\x01\x01\x12&\n" +
-	"\auser_id\x18\x1a \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\x15R\x06userId\x88\x01\x01B\a\n" +
+	"\x12course_language_id\x18\x19 \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\x14R\x10courseLanguageId\x88\x01\x01\x122\n" +
+	"\rinstructor_id\x18\x1a \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\x15R\finstructorId\x88\x01\x01B\a\n" +
 	"\x05_slugB\x0e\n" +
 	"\f_category_idB\x0e\n" +
 	"\f_course_typeB\b\n" +
@@ -1263,9 +1261,8 @@ const file_course_course_proto_rawDesc = "" +
 	"\f_is_approvedB\t\n" +
 	"\a_statusB\x12\n" +
 	"\x10_course_level_idB\x15\n" +
-	"\x13_course_language_idB\n" +
-	"\n" +
-	"\b_user_id\"N\n" +
+	"\x13_course_language_idB\x10\n" +
+	"\x0e_instructor_id\"N\n" +
 	"\x12EditCourseResponse\x12(\n" +
 	"\x04base\x18\x01 \x01(\v2\x14.common.BaseResponseR\x04base\x12\x0e\n" +
 	"\x02id\x18\x02 \x01(\tR\x02id\"1\n" +

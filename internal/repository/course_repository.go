@@ -37,14 +37,14 @@ func (ss *courseRepository) WithTransaction(tx *sqlx.Tx) ICourseRepository {
 func (sr *courseRepository) CreateNewCourse(ctx context.Context, course *entity.Course) error {
 	query := `
         INSERT INTO courses (
-            id, name, image_file_name, address, slug, user_id, category_id, course_type, 
+            id, name, image_file_name, address, slug, instructor_id, category_id, course_type, 
             seo_description, duration, timezone, thumbnail, demo_video_storage, 
             demo_video_source, description, capacity, price, discount, certificate, 
             gna, message_for_reviewer, is_approved, course_level_id, 
             course_language_id, created_at, created_by, updated_at, updated_by, deleted_by
         )
         VALUES (
-            :id, :name, :image_file_name, :address, :slug, :user_id, :category_id, :course_type, 
+            :id, :name, :image_file_name, :address, :slug, :instructor_id, :category_id, :course_type, 
             :seo_description, :duration, :timezone, :thumbnail, :demo_video_storage, 
             :demo_video_source, :description, :capacity, :price, :discount, :certificate, 
             :gna, :message_for_reviewer, :is_approved, :course_level_id, 
@@ -65,7 +65,7 @@ func (sr *courseRepository) GetCourseById(ctx context.Context, courseId string) 
 	var courseEntity entity.Course
 
 	// 1. Tentukan query
-	query := `SELECT id, name 
+	query := `SELECT id, image_file_name 
 	          FROM courses 
 	          WHERE id = $1 AND deleted_at IS NULL`
 
@@ -129,7 +129,7 @@ func (sr *courseRepository) UpdateCourse(ctx context.Context, course *entity.Cou
 			address = :address, 
 			image_file_name = :image_file_name, 
 			slug = :slug,
-			user_id = :user_id,
+			instructor_id = :instructor_id,
 			category_id = :category_id,
 			course_type = :course_type,
 			seo_description = :seo_description,
@@ -185,7 +185,7 @@ func NewCourseRepository(db database.DatabaseQuery) ICourseRepository {
 			"id": true, "name": true, "address": true, "image_file_name": true,
 			"created_at": true, "created_by": true, "updated_at": true,
 			"updated_by": true, "deleted_at": true, "deleted_by": true,
-			"slug": true, "user_id": true, "category_id": true,
+			"slug": true, "instructor_id": true, "category_id": true,
 			"course_type": true, "seo_description": true, "duration": true,
 			"timezone": true, "thumbnail": true, "demo_video_storage": true,
 			"demo_video_source": true, "description": true, "capacity": true,
