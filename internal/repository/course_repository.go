@@ -65,7 +65,7 @@ func (sr *courseRepository) GetCourseById(ctx context.Context, courseId string) 
 	var courseEntity entity.Course
 
 	// 1. Tentukan query
-	query := `SELECT id, name, address, image_file_name 
+	query := `SELECT id, name 
 	          FROM courses 
 	          WHERE id = $1 AND deleted_at IS NULL`
 
