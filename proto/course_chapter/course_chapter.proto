@@ -51,11 +51,12 @@ message DetailCourseChapterResponse {
 }
 
 message EditCourseChapterRequest {
-  string instructor_id = 1 [(buf.validate.field).string = { min_len: 1, max_len: 255 }];
-  string course_id = 2 [(buf.validate.field).string = { min_len: 1, max_len: 255 }];
-  string title = 3 [(buf.validate.field).string = { min_len: 1, max_len: 255 }];
-  int64 order_chapter = 4 [(buf.validate.field).int64.gte = 0];
-  string status = 5 [(buf.validate.field).string = { max_len: 255 }];
+  string id = 1 [(buf.validate.field).string = { min_len: 1, max_len: 255 }];
+  string instructor_id = 2 [(buf.validate.field).string = { min_len: 1, max_len: 255 }];
+  string course_id = 3 [(buf.validate.field).string = { min_len: 1, max_len: 255 }];
+  string title = 4 [(buf.validate.field).string = { min_len: 1, max_len: 255 }];
+  int64  order_chapter = 5 [(buf.validate.field).int64.gte = 0];
+  string status = 6 [(buf.validate.field).string = { max_len: 255 }];
 }
 
 message EditCourseChapterResponse {

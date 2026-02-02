@@ -346,11 +346,12 @@ func (x *DetailCourseChapterResponse) GetDeletedAt() string {
 
 type EditCourseChapterRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	InstructorId  string                 `protobuf:"bytes,1,opt,name=instructor_id,json=instructorId,proto3" json:"instructor_id,omitempty"`
-	CourseId      string                 `protobuf:"bytes,2,opt,name=course_id,json=courseId,proto3" json:"course_id,omitempty"`
-	Title         string                 `protobuf:"bytes,3,opt,name=title,proto3" json:"title,omitempty"`
-	OrderChapter  int64                  `protobuf:"varint,4,opt,name=order_chapter,json=orderChapter,proto3" json:"order_chapter,omitempty"`
-	Status        string                 `protobuf:"bytes,5,opt,name=status,proto3" json:"status,omitempty"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	InstructorId  string                 `protobuf:"bytes,2,opt,name=instructor_id,json=instructorId,proto3" json:"instructor_id,omitempty"`
+	CourseId      string                 `protobuf:"bytes,3,opt,name=course_id,json=courseId,proto3" json:"course_id,omitempty"`
+	Title         string                 `protobuf:"bytes,4,opt,name=title,proto3" json:"title,omitempty"`
+	OrderChapter  int64                  `protobuf:"varint,5,opt,name=order_chapter,json=orderChapter,proto3" json:"order_chapter,omitempty"`
+	Status        string                 `protobuf:"bytes,6,opt,name=status,proto3" json:"status,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -383,6 +384,13 @@ func (x *EditCourseChapterRequest) ProtoReflect() protoreflect.Message {
 // Deprecated: Use EditCourseChapterRequest.ProtoReflect.Descriptor instead.
 func (*EditCourseChapterRequest) Descriptor() ([]byte, []int) {
 	return file_course_chapter_course_chapter_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *EditCourseChapterRequest) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
 }
 
 func (x *EditCourseChapterRequest) GetInstructorId() string {
@@ -615,16 +623,18 @@ const file_course_chapter_course_chapter_proto_rawDesc = "" +
 	"\v_deleted_byB\r\n" +
 	"\v_updated_atB\r\n" +
 	"\v_updated_byB\r\n" +
-	"\v_deleted_at\"\xe6\x01\n" +
-	"\x18EditCourseChapterRequest\x12/\n" +
-	"\rinstructor_id\x18\x01 \x01(\tB\n" +
+	"\v_deleted_at\"\x82\x02\n" +
+	"\x18EditCourseChapterRequest\x12\x1a\n" +
+	"\x02id\x18\x01 \x01(\tB\n" +
+	"\xbaH\ar\x05\x10\x01\x18\xff\x01R\x02id\x12/\n" +
+	"\rinstructor_id\x18\x02 \x01(\tB\n" +
 	"\xbaH\ar\x05\x10\x01\x18\xff\x01R\finstructorId\x12'\n" +
-	"\tcourse_id\x18\x02 \x01(\tB\n" +
+	"\tcourse_id\x18\x03 \x01(\tB\n" +
 	"\xbaH\ar\x05\x10\x01\x18\xff\x01R\bcourseId\x12 \n" +
-	"\x05title\x18\x03 \x01(\tB\n" +
+	"\x05title\x18\x04 \x01(\tB\n" +
 	"\xbaH\ar\x05\x10\x01\x18\xff\x01R\x05title\x12,\n" +
-	"\rorder_chapter\x18\x04 \x01(\x03B\a\xbaH\x04\"\x02(\x00R\forderChapter\x12 \n" +
-	"\x06status\x18\x05 \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01R\x06status\"U\n" +
+	"\rorder_chapter\x18\x05 \x01(\x03B\a\xbaH\x04\"\x02(\x00R\forderChapter\x12 \n" +
+	"\x06status\x18\x06 \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01R\x06status\"U\n" +
 	"\x19EditCourseChapterResponse\x12(\n" +
 	"\x04base\x18\x01 \x01(\v2\x14.common.BaseResponseR\x04base\x12\x0e\n" +
 	"\x02id\x18\x02 \x01(\tR\x02id\"8\n" +

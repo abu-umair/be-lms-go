@@ -17,7 +17,7 @@ import (
 type ICourseChapterService interface {
 	CreateCourseChapter(ctx context.Context, request *course_chapter.CreateCourseChapterRequest) (*course_chapter.CreateCourseChapterResponse, error)
 	DetailCourseChapter(ctx context.Context, request *course_chapter.DetailCourseChapterRequest) (*course_chapter.DetailCourseChapterResponse, error)
-	// EditCourse(ctx context.Context, request *course_chapter.EditCourseChapterRequest) (*course_chapter.EditCourseChapterResponse, error)
+	EditCourseChapter(ctx context.Context, request *course_chapter.EditCourseChapterRequest) (*course_chapter.EditCourseChapterResponse, error)
 	// DeleteCourse(ctx context.Context, request *course_chapter.DeleteCourseChapterRequest) (*course_chapter.DeleteCourseChapterResponse, error)
 }
 
@@ -146,150 +146,88 @@ func (cs *courseChapterService) DetailCourseChapter(ctx context.Context, request
 
 	//? Mapping Waktu (Time)
 	res.CreatedAt = utils.TimeToPtr(courseChapterEntity.CreatedAt)
-	res.UpdatedAt = utils.PtrTimeToPtr(courseChapterEntity.UpdatedAt)
+	res.UpdatedAt = utils.TimeToPtr(courseChapterEntity.UpdatedAt)
 	res.DeletedAt = utils.PtrTimeToPtr(courseChapterEntity.DeletedAt)
 
 	return res, nil
 }
 
-// func (ss *courseChapterService) EditCourse(ctx context.Context, request *course_chapter.EditCourseChapterRequest) (*course_chapter.EditCourseChapterResponse, error) {
-// 	//* Get data token
-// 	claims, err := jwtentity.GetClaimsFromContext(ctx)
-// 	if err != nil {
-// 		return nil, err
-// 	}
+func (ss *courseChapterService) EditCourseChapter(ctx context.Context, request *course_chapter.EditCourseChapterRequest) (*course_chapter.EditCourseChapterResponse, error) {
+	//* Get data token
+	claims, err := jwtentity.GetClaimsFromContext(ctx)
+	if err != nil {
+		return nil, err
+	}
 
-// 	//* apakah role user adl Owner
-// 	if claims.Role != entity.UserRoleOwner {
-// 		return nil, utils.UnauthenticatedResponse()
-// 	}
+	//* apakah role user adl Owner
+	if claims.Role != entity.UserRoleOwner {
+		return nil, utils.UnauthenticatedResponse()
+	}
 
-// 	// *Apakah Id course ada di DB
-// 	courseEntity, err := ss.courseRepository.GetCourseById(ctx, request.Id)
-// 	if err != nil {
-// 		return nil, err
-// 	}
-// 	if courseEntity == nil {
-// 		return &course.EditCourseChapterResponse{
-// 			Base: utils.NotFoundResponse("Course not found"),
-// 		}, nil
-// 	}
+	// *Apakah Id course ada di DB
+	courseEntity, err := ss.courseChapterRepository.GetCourseChapterById(ctx, request.Id)
+	if err != nil {
+		return nil, err
+	}
+	if courseEntity == nil {
+		return &course_chapter.EditCourseChapterResponse{
+			Base: utils.NotFoundResponse("Course chapter not found"),
+		}, nil
+	}
 
-// 	tx, err := ss.db.BeginTxx(ctx, nil)
-// 	if err != nil {
-// 		return nil, err
-// 	}
+	tx, err := ss.db.BeginTxx(ctx, nil)
+	if err != nil {
+		return nil, err
+	}
 
-// 	defer func() {
-// 		if e := recover(); e != nil {
-// 			if tx != nil {
-// 				tx.Rollback() //?rollback jika ada error saan runtime
-// 			}
+	defer func() {
+		if e := recover(); e != nil {
+			if tx != nil {
+				tx.Rollback() //?rollback jika ada error saan runtime
+			}
 
-// 			debug.PrintStack() //?agar ada stock tracenya yang digunakan utk debug
-// 			panic(e)           //?agar bisa nyampai ke Middleware
-// 		}
-// 	}()
+			debug.PrintStack() //?agar ada stock tracenya yang digunakan utk debug
+			panic(e)           //?agar bisa nyampai ke Middleware
+		}
+	}()
 
-// 	defer func() {
-// 		if err != nil && tx != nil {
-// 			tx.Rollback() //?rollback jika ada error
-// 		}
-// 	}()
+	defer func() {
+		if err != nil && tx != nil {
+			tx.Rollback() //?rollback jika ada error
+		}
+	}()
 
-// 	courseRepo := ss.courseRepository.WithTransaction(tx)
+	courseChapterRepo := ss.courseChapterRepository.WithTransaction(tx)
 
-// 	// *update ke DB
-// 	var priceDecimal *decimal.Decimal
-// 	if request.Price != nil {
-// 		// Konversi string ke decimal
-// 		d, err := decimal.NewFromString(*request.Price)
-// 		if err != nil {
-// 			return &course.EditCourseChapterResponse{
-// 				Base: utils.BadRequestResponse("Invalid price format"),
-// 			}, nil
-// 		}
-// 		priceDecimal = &d
-// 	}
+	// *update ke DB
+	newCourse := entity.CourseChapter{
+		Id:           request.Id,
+		InstructorId: request.InstructorId,
+		CourseId:     request.CourseId,
+		Title:        request.Title,
+		OrderChapter: request.OrderChapter,
+		Status:       request.Status,
 
-// 	var discountDecimal *decimal.Decimal
-// 	if request.Price != nil {
-// 		d, err := decimal.NewFromString(*request.Discount)
-// 		if err != nil {
-// 			return &course.EditCourseChapterResponse{
-// 				Base: utils.BadRequestResponse("Invalid discount format"),
-// 			}, nil
-// 		}
-// 		discountDecimal = &d
-// 	}
+		UpdatedAt: time.Now(),
+		UpdatedBy: &claims.FullName,
+	}
 
-// 	newCourse := entity.Course{
-// 		Id:                 request.Id,
-// 		Name:               request.Name,
-// 		Address:            request.Address,
-// 		ImageFileName:      request.ImageFileName,
-// 		Slug:               request.Slug,
-// 		InstructorId:       request.InstructorId,
-// 		CategoryId:         request.CategoryId,
-// 		CourseType:         request.CourseType,
-// 		SeoDescription:     request.SeoDescription,
-// 		Duration:           request.Duration,
-// 		Timezone:           request.Timezone,
-// 		Thumbnail:          request.Thumbnail,
-// 		DemoVideoStorage:   request.DemoVideoStorage,
-// 		DemoVideoSource:    request.DemoVideoSource,
-// 		Description:        request.Description,
-// 		Capacity:           request.Capacity,
-// 		Price:              priceDecimal,
-// 		Discount:           discountDecimal,
-// 		Certificate:        request.Certificate,
-// 		Gna:                request.Gna,
-// 		MessageForReviewer: request.MessageForReviewer,
-// 		IsApproved:         request.IsApproved,
-// 		Status:             request.Status,
-// 		CourseLevelId:      request.CourseLevelId,
-// 		CourseLanguageId:   request.CourseLanguageId,
+	err = courseChapterRepo.UpdateCourseChapter(ctx, &newCourse)
+	if err != nil {
+		return nil, err
+	}
 
-// 		UpdatedAt: time.Now(),
-// 		UpdatedBy: &claims.FullName,
-// 	}
+	err = tx.Commit()
+	if err != nil {
+		return nil, err
+	}
 
-// 	err = courseRepo.UpdateCourse(ctx, &newCourse)
-// 	if err != nil {
-// 		return nil, err
-// 	}
-
-// 	// *jika ada image baru, hapus image lama
-// 	if courseEntity.ImageFileName != request.ImageFileName {
-// 		newImagePath := filepath.Join("storage", request.Id, "course", request.ImageFileName)
-// 		_, err := os.Stat(newImagePath)
-// 		if err != nil {
-// 			if os.IsNotExist(err) {
-// 				return &course.EditCourseChapterResponse{
-// 					Base: utils.BadRequestResponse("Image not found"),
-// 				}, nil
-// 			}
-// 			return nil, err
-// 		}
-
-// 		oldImagePath := filepath.Join("storage", courseEntity.Id, "course", courseEntity.ImageFileName)
-// 		err = os.Remove(oldImagePath)
-// 		if err != nil {
-// 			return nil, err
-// 		}
-// 	}
-
-// 	err = tx.Commit()
-// 	if err != nil {
-// 		return nil, err
-// 	}
-
-// 	// *success
-// 	return &course.EditCourseChapterResponse{
-// 		Base: utils.SuccessResponse("Edit Course Success"),
-// 		Id:   request.Id,
-// 	}, nil
-// }
+	// *success
+	return &course_chapter.EditCourseChapterResponse{
+		Base: utils.SuccessResponse("Edit Course Success"),
+		Id:   request.Id,
+	}, nil
+}
 
 // func (ss *courseChapterService) DeleteCourse(ctx context.Context, request *course_chapter.DeleteCourseChapterRequest) (*course_chapter.DeleteCourseChapterResponse, error) {
 // 	//* Get data token

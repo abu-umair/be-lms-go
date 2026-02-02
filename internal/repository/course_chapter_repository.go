@@ -6,6 +6,7 @@ import (
 	"errors"
 	"fmt"
 	"strings"
+	"time"
 
 	"github.com/abu-umair/be-lms-go/internal/entity"
 	"github.com/abu-umair/be-lms-go/pkg/database"
@@ -17,7 +18,7 @@ type ICourseChapterRepository interface {
 	CreateNewCourseChapter(ctx context.Context, courseChapter *entity.CourseChapter) error
 	GetCourseChapterById(ctx context.Context, courseChapterId string) (*entity.CourseChapter, error)
 	GetCourseChapterByIdFieldMask(ctx context.Context, courseChapterId string, paths []string) (*entity.CourseChapter, error)
-	// UpdateCourse(ctx context.Context, course *entity.Course) error
+	UpdateCourseChapter(ctx context.Context, courseChapter *entity.CourseChapter) error
 	// DeleteCourse(ctx context.Context, id string, deletedAt time.Time, deletedBy string) error
 }
 
@@ -111,63 +112,43 @@ func (cr *courseChapterRepository) GetCourseChapterByIdFieldMask(ctx context.Con
 	return &courseChapterEntity, nil
 }
 
-// func (sr *courseChapterRepository) UpdateCourse(ctx context.Context, course *entity.Course) error {
-// 	// Menggunakan Named Query (:field) yang merujuk pada tag db di struct entity
-// 	query := `
-// 		UPDATE courses
-// 		SET
-// 			name = :name,
-// 			address = :address,
-// 			image_file_name = :image_file_name,
-// 			slug = :slug,
-// 			instructor_id = :instructor_id,
-// 			category_id = :category_id,
-// 			course_type = :course_type,
-// 			seo_description = :seo_description,
-// 			duration = :duration,
-// 			timezone = :timezone,
-// 			thumbnail = :thumbnail,
-// 			demo_video_storage = :demo_video_storage,
-// 			demo_video_source = :demo_video_source,
-// 			description = :description,
-// 			capacity = :capacity,
-// 			price = :price,
-// 			discount = :discount,
-// 			certificate = :certificate,
-// 			gna = :gna,
-// 			message_for_reviewer = :message_for_reviewer,
-// 			is_approved = :is_approved,
-// 			status = :status,
-// 			course_level_id = :course_level_id,
-// 			course_language_id = :course_language_id,
+func (sr *courseChapterRepository) UpdateCourseChapter(ctx context.Context, courseChapter *entity.CourseChapter) error {
+	// Menggunakan Named Query (:field) yang merujuk pada tag db di struct entity
+	query := `
+		UPDATE course_chapters
+		SET
+			instructor_id = :instructor_id,
+			course_id = :course_id,
+			title = :title,
+			order_chapter = :order_chapter,
+			status = :status,
+			
+			updated_at = :updated_at,
+			updated_by = :updated_by
+		WHERE id = :id`
 
-// 			updated_at = :updated_at,
-// 			updated_by = :updated_by
-// 		WHERE id = :id`
+	_, err := sr.db.NamedExecContext(ctx, query, courseChapter)
+	return err
+}
 
-// 	_, err := sr.db.NamedExecContext(ctx, query, course)
-// 	// Langsung return err jika ada, atau nil jika sukses
-// 	return err
-// }
+func (sr *courseChapterRepository) DeleteCourse(ctx context.Context, id string, deletedAt time.Time, deletedBy string) error {
+	query := `UPDATE course_chapters SET deleted_at = :deleted_at, deleted_by = :deleted_by WHERE id = :id`
 
-// func (sr *courseChapterRepository) DeleteCourse(ctx context.Context, id string, deletedAt time.Time, deletedBy string) error {
-// 	query := `UPDATE courses SET deleted_at = :deleted_at, deleted_by = :deleted_by WHERE id = :id`
+	// Kita bungkus data ke dalam map agar bisa dibaca oleh NamedExecContext
+	data := map[string]any{
+		"deleted_at": deletedAt,
+		"deleted_by": deletedBy,
+		"id":         id,
+	}
 
-// 	// Kita bungkus data ke dalam map agar bisa dibaca oleh NamedExecContext
-// 	data := map[string]any{
-// 		"deleted_at": deletedAt,
-// 		"deleted_by": deletedBy,
-// 		"id":         id,
-// 	}
+	_, err := sr.db.NamedExecContext(ctx, query, data)
 
-// 	_, err := sr.db.NamedExecContext(ctx, query, data)
+	if err != nil {
+		return err
+	}
 
-// 	if err != nil {
-// 		return err
-// 	}
-
-// 	return nil
-// }
+	return nil
+}
 
 func NewCourseChapterRepository(db database.DatabaseQuery) ICourseChapterRepository {
 	return &courseChapterRepository{
