@@ -280,13 +280,58 @@ func (ss *courseService) EditCourse(ctx context.Context, request *course.EditCou
 	courseRepo := ss.courseRepository.WithTransaction(tx)
 
 	// *update ke DB
+	var priceDecimal *decimal.Decimal
+	if request.Price != nil {
+		// Konversi string ke decimal
+		d, err := decimal.NewFromString(*request.Price)
+		if err != nil {
+			return &course.EditCourseResponse{
+				Base: utils.BadRequestResponse("Invalid price format"),
+			}, nil
+		}
+		priceDecimal = &d
+	}
+
+	var discountDecimal *decimal.Decimal
+	if request.Price != nil {
+		d, err := decimal.NewFromString(*request.Discount)
+		if err != nil {
+			return &course.EditCourseResponse{
+				Base: utils.BadRequestResponse("Invalid discount format"),
+			}, nil
+		}
+		discountDecimal = &d
+	}
+
 	newCourse := entity.Course{
-		Id:            request.Id,
-		Name:          request.Name,
-		Address:       request.Address,
-		ImageFileName: request.ImageFileName,
-		UpdatedAt:     time.Now(),
-		UpdatedBy:     &claims.FullName,
+		Id:                 request.Id,
+		Name:               request.Name,
+		Address:            request.Address,
+		ImageFileName:      request.ImageFileName,
+		Slug:               request.Slug,
+		UserId:             request.UserId,
+		CategoryId:         request.CategoryId,
+		CourseType:         request.CourseType,
+		SeoDescription:     request.SeoDescription,
+		Duration:           request.Duration,
+		Timezone:           request.Timezone,
+		Thumbnail:          request.Thumbnail,
+		DemoVideoStorage:   request.DemoVideoStorage,
+		DemoVideoSource:    request.DemoVideoSource,
+		Description:        request.Description,
+		Capacity:           request.Capacity,
+		Price:              priceDecimal,
+		Discount:           discountDecimal,
+		Certificate:        request.Certificate,
+		Gna:                request.Gna,
+		MessageForReviewer: request.MessageForReviewer,
+		IsApproved:         request.IsApproved,
+		Status:             request.Status,
+		CourseLevelId:      request.CourseLevelId,
+		CourseLanguageId:   request.CourseLanguageId,
+
+		UpdatedAt: time.Now(),
+		UpdatedBy: &claims.FullName,
 	}
 
 	err = courseRepo.UpdateCourse(ctx, &newCourse)
