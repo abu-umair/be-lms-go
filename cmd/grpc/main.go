@@ -13,6 +13,7 @@ import (
 	"github.com/abu-umair/be-lms-go/internal/service"
 	"github.com/abu-umair/be-lms-go/pb/auth"
 	"github.com/abu-umair/be-lms-go/pb/course"
+	"github.com/abu-umair/be-lms-go/pb/course_chapter"
 	"github.com/abu-umair/be-lms-go/pkg/database"
 	"github.com/joho/godotenv"
 	gocache "github.com/patrickmn/go-cache"
@@ -52,6 +53,10 @@ func main() {
 	courseService := service.NewCourseService(db, courseRepository)
 	courseHandler := handler.NewCourseHandler(courseService)
 
+	courseChapterRepository := repository.NewCourseChapterRepository(db)
+	courseChapterService := service.NewCourseChapterService(db, courseChapterRepository)
+	courseChapterHandler := handler.NewCourseChapterHandler(courseChapterService)
+
 	serv := grpc.NewServer(
 		grpc.ChainUnaryInterceptor(
 			grpcmiddleware.ErrorMiddleware,
@@ -61,6 +66,7 @@ func main() {
 
 	auth.RegisterAuthServiceServer(serv, authHandler)
 	course.RegisterCourseServiceServer(serv, courseHandler)
+	course_chapter.RegisterCourseChapterServiceServer(serv, courseChapterHandler)
 
 	if os.Getenv("ENVIRONMENT") == "dev" {
 		reflection.Register(serv)
