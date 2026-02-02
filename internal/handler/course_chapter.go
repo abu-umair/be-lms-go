@@ -35,26 +35,26 @@ func (ch *courseChapterHandler) CreateCourseChapter(ctx context.Context, request
 	return res, nil
 }
 
-// func (ch *courseChapterHandler) DetailCourseChapter(ctx context.Context, request *courseChapter.DetailCourseChapterRequest) (*courseChapter.DetailCourseChapterResponse, error) {
-// 	//? validasi request
-// 	validationErrors, err := utils.CheckValidation(request)
-// 	if err != nil {
-// 		return nil, err
-// 	}
+func (ch *courseChapterHandler) DetailCourseChapter(ctx context.Context, request *course_chapter.DetailCourseChapterRequest) (*course_chapter.DetailCourseChapterResponse, error) {
+	//? validasi request
+	validationErrors, err := utils.CheckValidation(request)
+	if err != nil {
+		return nil, err
+	}
 
-// 	if validationErrors != nil {
-// 		return &course_chapter.DetailCourseChapterResponse{
-// 			Base: utils.ValidationErrorResponse(validationErrors),
-// 		}, nil
-// 	}
+	if validationErrors != nil {
+		return &course_chapter.DetailCourseChapterResponse{
+			Base: utils.ValidationErrorResponse(validationErrors),
+		}, nil
+	}
 
-// 	res, err := ch.courseChapterService.DetailCourseChapter(ctx, request)
-// 	if err != nil {
-// 		return nil, err
-// 	}
+	res, err := ch.courseChapterService.DetailCourseChapter(ctx, request)
+	if err != nil {
+		return nil, err
+	}
 
-// 	return res, nil
-// }
+	return res, nil
+}
 
 // func (ch *courseChapterHandler) EditCourseChapter(ctx context.Context, request *courseChapter.EditCourseChapterRequest) (*courseChapter.EditCourseChapterResponse, error) {
 // 	validationErrors, err := utils.CheckValidation(request)

@@ -16,7 +16,7 @@ import (
 
 type ICourseChapterService interface {
 	CreateCourseChapter(ctx context.Context, request *course_chapter.CreateCourseChapterRequest) (*course_chapter.CreateCourseChapterResponse, error)
-	// DetailCourse(ctx context.Context, request *course_chapter.DetailCourseChapterRequest) (*course_chapter.DetailCourseChapterResponse, error)
+	DetailCourseChapter(ctx context.Context, request *course_chapter.DetailCourseChapterRequest) (*course_chapter.DetailCourseChapterResponse, error)
 	// EditCourse(ctx context.Context, request *course_chapter.EditCourseChapterRequest) (*course_chapter.EditCourseChapterResponse, error)
 	// DeleteCourse(ctx context.Context, request *course_chapter.DeleteCourseChapterRequest) (*course_chapter.DeleteCourseChapterResponse, error)
 }
@@ -68,7 +68,7 @@ func (cs *courseChapterService) CreateCourseChapter(ctx context.Context, request
 		InstructorId: request.InstructorId,
 		CourseId:     request.CourseId,
 		Title:        request.Title,
-		Order:        request.Order,
+		OrderChapter: request.OrderChapter,
 		Status:       request.Status,
 
 		CreatedAt: time.Now(),
@@ -91,90 +91,66 @@ func (cs *courseChapterService) CreateCourseChapter(ctx context.Context, request
 	}, nil
 }
 
-// func (ss *courseChapterService) DetailCourse(ctx context.Context, request *course_chapter.DetailCourseChapterRequest) (*course_chapter.DetailCourseChapterResponse, error) {
+func (cs *courseChapterService) DetailCourseChapter(ctx context.Context, request *course_chapter.DetailCourseChapterRequest) (*course_chapter.DetailCourseChapterResponse, error) {
 
-// 	//* Get data token
-// 	claims, err := jwtentity.GetClaimsFromContext(ctx)
-// 	if err != nil {
-// 		return nil, err
-// 	}
+	//* Get data token
+	claims, err := jwtentity.GetClaimsFromContext(ctx)
+	if err != nil {
+		return nil, err
+	}
 
-// 	//* apakah role user adl Owner
-// 	if claims.Role != entity.UserRoleOwner {
-// 		return nil, utils.UnauthenticatedResponse()
-// 	}
+	//* apakah role user adl Owner
+	if claims.Role != entity.UserRoleOwner {
+		return nil, utils.UnauthenticatedResponse()
+	}
 
-// 	// * Get course by course_id
-// 	// Misal request.FieldMask.Paths berisi ["name", "address"]
-// 	paths := []string{"id"} // ID wajib ada untuk mapping
-// 	if request.FieldMask != nil {
-// 		paths = append(paths, request.FieldMask.Paths...)
-// 	}
+	// * Get course_chapters by chapter_id
+	// Misal request.FieldMask.Paths berisi ["name", "address"]
+	paths := []string{"id"} // ID wajib ada untuk mapping
+	if request.FieldMask != nil {
+		paths = append(paths, request.FieldMask.Paths...)
+	}
 
-// 	courseEntity, err := cs.courseRepository.GetCourseByIdFieldMask(ctx, request.Id, paths)
-// 	if err != nil {
-// 		return nil, err
-// 	}
+	courseChapterEntity, err := cs.courseChapterRepository.GetCourseChapterByIdFieldMask(ctx, request.Id, paths)
+	if err != nil {
+		return nil, err
+	}
 
-// 	//* Apabila null course_id, return not found
-// 	if courseEntity == nil {
-// 		return &course.DetailCourseChapterResponse{
-// 			Base: utils.NotFoundResponse("Course not found"),
-// 		}, nil
-// 	}
+	//* Apabila null chapter_id, return not found
+	if courseChapterEntity == nil {
+		return &course_chapter.DetailCourseChapterResponse{
+			Base: utils.NotFoundResponse("Course chapter not found"),
+		}, nil
+	}
 
-// 	// *success
-// 	res := &course.DetailCourseChapterResponse{
-// 		Base: utils.SuccessResponse("Course Detail Success"),
-// 		Id:   courseEntity.Id,
-// 	}
+	// *success
+	res := &course_chapter.DetailCourseChapterResponse{
+		Base: utils.SuccessResponse("Course Chapter Detail Success"),
+		Id:   courseChapterEntity.Id,
+	}
 
-// 	// Cek Name: Jika kosong (tidak di-select), res.Name tetap nil (tidak muncul di JSON)
-// 	//? Mapping Field String Biasa (Non-Pointer di Struct)
-// 	res.Name = utils.StringToPtr(courseEntity.Name)
-// 	res.Address = utils.StringToPtr(courseEntity.Address)
-// 	res.CreatedBy = utils.StringToPtr(courseEntity.CreatedBy)
+	// Cek Name: Jika kosong (tidak di-select), res.Name tetap nil (tidak muncul di JSON)
+	//? Mapping Field String Biasa (Non-Pointer di Struct)
+	res.Title = utils.StringToPtr(courseChapterEntity.Title)
+	res.InstructorId = utils.StringToPtr(courseChapterEntity.InstructorId)
+	res.CourseId = utils.StringToPtr(courseChapterEntity.CourseId)
+	res.Status = utils.StringToPtr(courseChapterEntity.Status)
+	res.CreatedBy = utils.StringToPtr(courseChapterEntity.CreatedBy)
 
-// 	//?Mapping Field Pointer String (*string di Struct)
-// 	res.Slug = utils.PtrStringToPtr(courseEntity.Slug)
-// 	res.InstructorId = utils.PtrStringToPtr(courseEntity.InstructorId)
-// 	res.CategoryId = utils.PtrStringToPtr(courseEntity.CategoryId)
-// 	res.CourseType = utils.PtrStringToPtr(courseEntity.CourseType)
-// 	res.SeoDescription = utils.PtrStringToPtr(courseEntity.SeoDescription)
-// 	res.Duration = utils.PtrStringToPtr(courseEntity.Duration)
-// 	res.Timezone = utils.PtrStringToPtr(courseEntity.Timezone)
-// 	res.Thumbnail = utils.PtrStringToPtr(courseEntity.Thumbnail)
-// 	res.DemoVideoStorage = utils.PtrStringToPtr(courseEntity.DemoVideoStorage)
-// 	res.DemoVideoSource = utils.PtrStringToPtr(courseEntity.DemoVideoSource)
-// 	res.Description = utils.PtrStringToPtr(courseEntity.Description)
-// 	res.Certificate = utils.PtrStringToPtr(courseEntity.Certificate)
-// 	res.Gna = utils.PtrStringToPtr(courseEntity.Gna)
-// 	res.MessageForReviewer = utils.PtrStringToPtr(courseEntity.MessageForReviewer)
-// 	res.IsApproved = utils.PtrStringToPtr(courseEntity.IsApproved)
-// 	res.Status = utils.PtrStringToPtr(courseEntity.Status)
-// 	res.CourseLevelId = utils.PtrStringToPtr(courseEntity.CourseLevelId)
-// 	res.CourseLanguageId = utils.PtrStringToPtr(courseEntity.CourseLanguageId)
-// 	res.UpdatedBy = utils.PtrStringToPtr(courseEntity.UpdatedBy)
-// 	res.DeletedBy = utils.PtrStringToPtr(courseEntity.DeletedBy)
+	//?Mapping Field Pointer String (*string di Struct)
+	res.UpdatedBy = utils.PtrStringToPtr(courseChapterEntity.UpdatedBy)
+	res.DeletedBy = utils.PtrStringToPtr(courseChapterEntity.DeletedBy)
 
-// 	//? Mapping Angka dan Harga (Int64 & Decimal)
-// 	res.Capacity = utils.PtrInt64ToPtr(courseEntity.Capacity)
-// 	res.Price = utils.PtrDecimalToPtr(courseEntity.Price)
-// 	res.Discount = utils.PtrDecimalToPtr(courseEntity.Discount)
+	//? Mapping Angka int64 biasa
+	res.OrderChapter = utils.Int64ToPtr(courseChapterEntity.OrderChapter)
 
-// 	//? Mapping Waktu (Time)
-// 	res.CreatedAt = utils.TimeToPtr(courseEntity.CreatedAt)
-// 	res.UpdatedAt = utils.TimeToPtr(courseEntity.UpdatedAt)
-// 	res.DeletedAt = utils.PtrTimeToPtr(courseEntity.DeletedAt)
+	//? Mapping Waktu (Time)
+	res.CreatedAt = utils.TimeToPtr(courseChapterEntity.CreatedAt)
+	res.UpdatedAt = utils.PtrTimeToPtr(courseChapterEntity.UpdatedAt)
+	res.DeletedAt = utils.PtrTimeToPtr(courseChapterEntity.DeletedAt)
 
-// 	//? khusus image: Cek dulu apakah ImageFileName ada di database
-// 	if courseEntity.ImageFileName != "" {
-// 		fullUrl := fmt.Sprintf("%s/%s/course/%s", os.Getenv("STORAGE_SERVICE_URL"), courseEntity.Id, courseEntity.ImageFileName)
-// 		res.ImageFileName = &fullUrl
-// 	}
-
-// 	return res, nil
-// }
+	return res, nil
+}
 
 // func (ss *courseChapterService) EditCourse(ctx context.Context, request *course_chapter.EditCourseChapterRequest) (*course_chapter.EditCourseChapterResponse, error) {
 // 	//* Get data token

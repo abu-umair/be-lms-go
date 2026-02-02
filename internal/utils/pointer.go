@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"strconv"
 	"time"
 
 	"github.com/shopspring/decimal"
@@ -26,12 +27,30 @@ func PtrStringToPtr(s *string) *string {
 
 // Int64ToPtr mengubah int64 menjadi pointer.
 func Int64ToPtr(i int64) *int64 {
+	if i == 0 {
+		return nil
+	}
 	return &i
 }
 
 // PtrInt64ToPtr menangani *int64 (seperti field Capacity).
 func PtrInt64ToPtr(i *int64) *int64 {
 	return i
+}
+
+// Int64ToStringPtr mengubah int64 menjadi pointer string.
+func Int64ToStringPtr(i int64) *string {
+	s := strconv.FormatInt(i, 10)
+	return &s
+}
+
+// PtrInt64ToStringPtr mengubah *int64 menjadi pointer string.
+func PtrInt64ToStringPtr(i *int64) *string {
+	if i == nil {
+		return nil
+	}
+	s := strconv.FormatInt(*i, 10)
+	return &s
 }
 
 // DecimalToPtr mengubah decimal.Decimal menjadi pointer string (format gRPC).

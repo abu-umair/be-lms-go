@@ -2,6 +2,10 @@ package repository
 
 import (
 	"context"
+	"database/sql"
+	"errors"
+	"fmt"
+	"strings"
 
 	"github.com/abu-umair/be-lms-go/internal/entity"
 	"github.com/abu-umair/be-lms-go/pkg/database"
@@ -10,9 +14,9 @@ import (
 
 type ICourseChapterRepository interface {
 	WithTransaction(tx *sqlx.Tx) ICourseChapterRepository
-	CreateNewCourseChapter(ctx context.Context, course *entity.CourseChapter) error
-	// GetCourseById(ctx context.Context, courseId string) (*entity.Course, error)
-	// GetCourseByIdFieldMask(ctx context.Context, courseId string, paths []string) (*entity.Course, error)
+	CreateNewCourseChapter(ctx context.Context, courseChapter *entity.CourseChapter) error
+	GetCourseChapterById(ctx context.Context, courseChapterId string) (*entity.CourseChapter, error)
+	GetCourseChapterByIdFieldMask(ctx context.Context, courseChapterId string, paths []string) (*entity.CourseChapter, error)
 	// UpdateCourse(ctx context.Context, course *entity.Course) error
 	// DeleteCourse(ctx context.Context, id string, deletedAt time.Time, deletedBy string) error
 }
@@ -32,10 +36,10 @@ func (cs *courseChapterRepository) WithTransaction(tx *sqlx.Tx) ICourseChapterRe
 func (cr *courseChapterRepository) CreateNewCourseChapter(ctx context.Context, courseChapter *entity.CourseChapter) error {
 	query := `
         INSERT INTO course_chapters (
-		id, instructor_id, course_id, title, "order", status, created_at, created_by, updated_at, updated_by, deleted_by
+		id, instructor_id, course_id, title, order_chapter, status, created_at, created_by, updated_at, updated_by, deleted_by
         )
         VALUES (
-            :id, :instructor_id, :course_id, :title, :order, :status, :created_at, :created_by, :updated_at, :updated_by, :deleted_by
+            :id, :instructor_id, :course_id, :title, :order_chapter, :status, :created_at, :created_by, :updated_at, :updated_by, :deleted_by
         )`
 
 	// NamedExecContext akan otomatis mencocokkan :id dengan field di struct
@@ -48,64 +52,64 @@ func (cr *courseChapterRepository) CreateNewCourseChapter(ctx context.Context, c
 	return nil
 }
 
-// func (sr *courseChapterRepository) GetCourseById(ctx context.Context, courseId string) (*entity.Course, error) {
-// 	var courseEntity entity.Course
+func (cr *courseChapterRepository) GetCourseChapterById(ctx context.Context, courseChapterId string) (*entity.CourseChapter, error) {
+	var courseChapterEntity entity.CourseChapter
 
-// 	// 1. Tentukan query
-// 	query := `SELECT id, image_file_name
-// 	          FROM courses
-// 	          WHERE id = $1 AND deleted_at IS NULL`
+	// 1. Tentukan query
+	query := `SELECT id
+	          FROM course_chapters
+	          WHERE id = $1 AND deleted_at IS NULL`
 
-// 	// 2. Gunakan GetContext untuk mapping otomatis
-// 	// sqlx akan mencocokkan kolom SELECT dengan tag `db` di struct entity.Course
-// 	err := sr.db.GetContext(ctx, &courseEntity, query, courseId)
+	// 2. Gunakan GetContext untuk mapping otomatis
+	// sqlx akan mencocokkan kolom SELECT dengan tag `db` di struct entity.Course
+	err := cr.db.GetContext(ctx, &courseChapterEntity, query, courseChapterId)
 
-// 	if err != nil {
-// 		// 3. Tangani jika data tidak ditemukan
-// 		if errors.Is(err, sql.ErrNoRows) {
-// 			return nil, nil
-// 		}
-// 		return nil, err
-// 	}
+	if err != nil {
+		// 3. Tangani jika data tidak ditemukan
+		if errors.Is(err, sql.ErrNoRows) {
+			return nil, nil
+		}
+		return nil, err
+	}
 
-// 	return &courseEntity, nil
-// }
+	return &courseChapterEntity, nil
+}
 
-// func (sr *courseChapterRepository) GetCourseByIdFieldMask(ctx context.Context, courseId string, paths []string) (*entity.Course, error) {
-// 	var courseEntity entity.Course
+func (cr *courseChapterRepository) GetCourseChapterByIdFieldMask(ctx context.Context, courseChapterId string, paths []string) (*entity.CourseChapter, error) {
+	var courseChapterEntity entity.CourseChapter
 
-// 	// 1. Tentukan kolom yang akan di-select
-// 	selectedColumns := "*" // Default jika paths kosong
-// 	if len(paths) > 0 {
-// 		var validColumns []string
-// 		for _, p := range paths {
-// 			// Cek apakah kolom yang diminta ada di whitelist kita
-// 			if sr.whitelist[p] {
-// 				validColumns = append(validColumns, p)
-// 			}
-// 		}
+	// 1. Tentukan kolom yang akan di-select
+	selectedColumns := "*" // Default jika paths kosong
+	if len(paths) > 0 {
+		var validColumns []string
+		for _, p := range paths {
+			// Cek apakah kolom yang diminta ada di whitelist kita
+			if cr.whitelist[p] {
+				validColumns = append(validColumns, p)
+			}
+		}
 
-// 		if len(validColumns) > 0 {
-// 			selectedColumns = strings.Join(validColumns, ", ")
-// 		}
-// 	}
+		if len(validColumns) > 0 {
+			selectedColumns = strings.Join(validColumns, ", ")
+		}
+	}
 
-// 	// 2. Tentukan query dengan kolom dinamis
-// 	query := fmt.Sprintf(`SELECT %s FROM courses WHERE id = $1 AND deleted_at IS NULL`, selectedColumns)
+	// 2. Tentukan query dengan kolom dinamis
+	query := fmt.Sprintf(`SELECT %s FROM course_chapters WHERE id = $1 AND deleted_at IS NULL`, selectedColumns)
 
-// 	// 3. Gunakan GetContext (sqlx tetap bisa memetakan meskipun kolomnya cuma sedikit)
-// 	err := sr.db.GetContext(ctx, &courseEntity, query, courseId)
+	// 3. Gunakan GetContext (sqlx tetap bisa memetakan meskipun kolomnya cuma sedikit)
+	err := cr.db.GetContext(ctx, &courseChapterEntity, query, courseChapterId)
 
-// 	if err != nil {
-// 		// 3. Tangani jika data tidak ditemukan
-// 		if errors.Is(err, sql.ErrNoRows) {
-// 			return nil, err
-// 		}
-// 		return nil, err
-// 	}
+	if err != nil {
+		// 3. Tangani jika data tidak ditemukan
+		if errors.Is(err, sql.ErrNoRows) {
+			return nil, err
+		}
+		return nil, err
+	}
 
-// 	return &courseEntity, nil
-// }
+	return &courseChapterEntity, nil
+}
 
 // func (sr *courseChapterRepository) UpdateCourse(ctx context.Context, course *entity.Course) error {
 // 	// Menggunakan Named Query (:field) yang merujuk pada tag db di struct entity
@@ -170,7 +174,7 @@ func NewCourseChapterRepository(db database.DatabaseQuery) ICourseChapterReposit
 		db: db,
 		whitelist: map[string]bool{
 			"id": true, "instructor_id": true, "course_id": true, "title": true,
-			"order": true, "status": true,
+			"order_chapter": true, "status": true,
 			"created_at": true, "created_by": true, "updated_at": true,
 			"updated_by": true, "deleted_at": true, "deleted_by": true,
 		},

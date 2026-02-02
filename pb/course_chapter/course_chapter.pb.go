@@ -29,7 +29,7 @@ type CreateCourseChapterRequest struct {
 	InstructorId  string                 `protobuf:"bytes,1,opt,name=instructor_id,json=instructorId,proto3" json:"instructor_id,omitempty"`
 	CourseId      string                 `protobuf:"bytes,2,opt,name=course_id,json=courseId,proto3" json:"course_id,omitempty"`
 	Title         string                 `protobuf:"bytes,3,opt,name=title,proto3" json:"title,omitempty"`
-	Order         int64                  `protobuf:"varint,4,opt,name=order,proto3" json:"order,omitempty"`
+	OrderChapter  int64                  `protobuf:"varint,4,opt,name=order_chapter,json=orderChapter,proto3" json:"order_chapter,omitempty"`
 	Status        string                 `protobuf:"bytes,5,opt,name=status,proto3" json:"status,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -86,9 +86,9 @@ func (x *CreateCourseChapterRequest) GetTitle() string {
 	return ""
 }
 
-func (x *CreateCourseChapterRequest) GetOrder() int64 {
+func (x *CreateCourseChapterRequest) GetOrderChapter() int64 {
 	if x != nil {
-		return x.Order
+		return x.OrderChapter
 	}
 	return 0
 }
@@ -211,8 +211,14 @@ type DetailCourseChapterResponse struct {
 	InstructorId  *string                `protobuf:"bytes,3,opt,name=instructor_id,json=instructorId,proto3,oneof" json:"instructor_id,omitempty"`
 	CourseId      *string                `protobuf:"bytes,4,opt,name=course_id,json=courseId,proto3,oneof" json:"course_id,omitempty"`
 	Title         *string                `protobuf:"bytes,5,opt,name=title,proto3,oneof" json:"title,omitempty"`
-	Order         *string                `protobuf:"bytes,6,opt,name=order,proto3,oneof" json:"order,omitempty"`
+	OrderChapter  *int64                 `protobuf:"varint,6,opt,name=order_chapter,json=orderChapter,proto3,oneof" json:"order_chapter,omitempty"`
 	Status        *string                `protobuf:"bytes,7,opt,name=status,proto3,oneof" json:"status,omitempty"`
+	CreatedAt     *string                `protobuf:"bytes,8,opt,name=created_at,json=createdAt,proto3,oneof" json:"created_at,omitempty"`
+	CreatedBy     *string                `protobuf:"bytes,9,opt,name=created_by,json=createdBy,proto3,oneof" json:"created_by,omitempty"`
+	DeletedBy     *string                `protobuf:"bytes,10,opt,name=deleted_by,json=deletedBy,proto3,oneof" json:"deleted_by,omitempty"`
+	UpdatedAt     *string                `protobuf:"bytes,11,opt,name=updated_at,json=updatedAt,proto3,oneof" json:"updated_at,omitempty"`
+	UpdatedBy     *string                `protobuf:"bytes,12,opt,name=updated_by,json=updatedBy,proto3,oneof" json:"updated_by,omitempty"`
+	DeletedAt     *string                `protobuf:"bytes,13,opt,name=deleted_at,json=deletedAt,proto3,oneof" json:"deleted_at,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -282,11 +288,11 @@ func (x *DetailCourseChapterResponse) GetTitle() string {
 	return ""
 }
 
-func (x *DetailCourseChapterResponse) GetOrder() string {
-	if x != nil && x.Order != nil {
-		return *x.Order
+func (x *DetailCourseChapterResponse) GetOrderChapter() int64 {
+	if x != nil && x.OrderChapter != nil {
+		return *x.OrderChapter
 	}
-	return ""
+	return 0
 }
 
 func (x *DetailCourseChapterResponse) GetStatus() string {
@@ -296,12 +302,54 @@ func (x *DetailCourseChapterResponse) GetStatus() string {
 	return ""
 }
 
+func (x *DetailCourseChapterResponse) GetCreatedAt() string {
+	if x != nil && x.CreatedAt != nil {
+		return *x.CreatedAt
+	}
+	return ""
+}
+
+func (x *DetailCourseChapterResponse) GetCreatedBy() string {
+	if x != nil && x.CreatedBy != nil {
+		return *x.CreatedBy
+	}
+	return ""
+}
+
+func (x *DetailCourseChapterResponse) GetDeletedBy() string {
+	if x != nil && x.DeletedBy != nil {
+		return *x.DeletedBy
+	}
+	return ""
+}
+
+func (x *DetailCourseChapterResponse) GetUpdatedAt() string {
+	if x != nil && x.UpdatedAt != nil {
+		return *x.UpdatedAt
+	}
+	return ""
+}
+
+func (x *DetailCourseChapterResponse) GetUpdatedBy() string {
+	if x != nil && x.UpdatedBy != nil {
+		return *x.UpdatedBy
+	}
+	return ""
+}
+
+func (x *DetailCourseChapterResponse) GetDeletedAt() string {
+	if x != nil && x.DeletedAt != nil {
+		return *x.DeletedAt
+	}
+	return ""
+}
+
 type EditCourseChapterRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	InstructorId  string                 `protobuf:"bytes,1,opt,name=instructor_id,json=instructorId,proto3" json:"instructor_id,omitempty"`
 	CourseId      string                 `protobuf:"bytes,2,opt,name=course_id,json=courseId,proto3" json:"course_id,omitempty"`
 	Title         string                 `protobuf:"bytes,3,opt,name=title,proto3" json:"title,omitempty"`
-	Order         int64                  `protobuf:"varint,4,opt,name=order,proto3" json:"order,omitempty"`
+	OrderChapter  int64                  `protobuf:"varint,4,opt,name=order_chapter,json=orderChapter,proto3" json:"order_chapter,omitempty"`
 	Status        string                 `protobuf:"bytes,5,opt,name=status,proto3" json:"status,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -358,9 +406,9 @@ func (x *EditCourseChapterRequest) GetTitle() string {
 	return ""
 }
 
-func (x *EditCourseChapterRequest) GetOrder() int64 {
+func (x *EditCourseChapterRequest) GetOrderChapter() int64 {
 	if x != nil {
-		return x.Order
+		return x.OrderChapter
 	}
 	return 0
 }
@@ -516,15 +564,15 @@ var File_course_chapter_course_chapter_proto protoreflect.FileDescriptor
 
 const file_course_chapter_course_chapter_proto_rawDesc = "" +
 	"\n" +
-	"#course_chapter/course_chapter.proto\x12\x0ecourse_chapter\x1a\x1acommon/base_response.proto\x1a\x1bbuf/validate/validate.proto\x1a google/protobuf/field_mask.proto\"\xd9\x01\n" +
+	"#course_chapter/course_chapter.proto\x12\x0ecourse_chapter\x1a\x1acommon/base_response.proto\x1a\x1bbuf/validate/validate.proto\x1a google/protobuf/field_mask.proto\"\xe8\x01\n" +
 	"\x1aCreateCourseChapterRequest\x12/\n" +
 	"\rinstructor_id\x18\x01 \x01(\tB\n" +
 	"\xbaH\ar\x05\x10\x01\x18\xff\x01R\finstructorId\x12'\n" +
 	"\tcourse_id\x18\x02 \x01(\tB\n" +
 	"\xbaH\ar\x05\x10\x01\x18\xff\x01R\bcourseId\x12 \n" +
 	"\x05title\x18\x03 \x01(\tB\n" +
-	"\xbaH\ar\x05\x10\x01\x18\xff\x01R\x05title\x12\x1d\n" +
-	"\x05order\x18\x04 \x01(\x03B\a\xbaH\x04\"\x02(\x00R\x05order\x12 \n" +
+	"\xbaH\ar\x05\x10\x01\x18\xff\x01R\x05title\x12,\n" +
+	"\rorder_chapter\x18\x04 \x01(\x03B\a\xbaH\x04\"\x02(\x00R\forderChapter\x12 \n" +
 	"\x06status\x18\x05 \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01R\x06status\"W\n" +
 	"\x1bCreateCourseChapterResponse\x12(\n" +
 	"\x04base\x18\x01 \x01(\v2\x14.common.BaseResponseR\x04base\x12\x0e\n" +
@@ -533,29 +581,49 @@ const file_course_chapter_course_chapter_proto_rawDesc = "" +
 	"\x02id\x18\x01 \x01(\tB\n" +
 	"\xbaH\ar\x05\x10\x01\x18\xff\x01R\x02id\x129\n" +
 	"\n" +
-	"field_mask\x18\x02 \x01(\v2\x1a.google.protobuf.FieldMaskR\tfieldMask\"\xb5\x02\n" +
+	"field_mask\x18\x02 \x01(\v2\x1a.google.protobuf.FieldMaskR\tfieldMask\"\xfe\x04\n" +
 	"\x1bDetailCourseChapterResponse\x12(\n" +
 	"\x04base\x18\x01 \x01(\v2\x14.common.BaseResponseR\x04base\x12\x0e\n" +
 	"\x02id\x18\x02 \x01(\tR\x02id\x12(\n" +
 	"\rinstructor_id\x18\x03 \x01(\tH\x00R\finstructorId\x88\x01\x01\x12 \n" +
 	"\tcourse_id\x18\x04 \x01(\tH\x01R\bcourseId\x88\x01\x01\x12\x19\n" +
-	"\x05title\x18\x05 \x01(\tH\x02R\x05title\x88\x01\x01\x12\x19\n" +
-	"\x05order\x18\x06 \x01(\tH\x03R\x05order\x88\x01\x01\x12\x1b\n" +
-	"\x06status\x18\a \x01(\tH\x04R\x06status\x88\x01\x01B\x10\n" +
+	"\x05title\x18\x05 \x01(\tH\x02R\x05title\x88\x01\x01\x12(\n" +
+	"\rorder_chapter\x18\x06 \x01(\x03H\x03R\forderChapter\x88\x01\x01\x12\x1b\n" +
+	"\x06status\x18\a \x01(\tH\x04R\x06status\x88\x01\x01\x12\"\n" +
+	"\n" +
+	"created_at\x18\b \x01(\tH\x05R\tcreatedAt\x88\x01\x01\x12\"\n" +
+	"\n" +
+	"created_by\x18\t \x01(\tH\x06R\tcreatedBy\x88\x01\x01\x12\"\n" +
+	"\n" +
+	"deleted_by\x18\n" +
+	" \x01(\tH\aR\tdeletedBy\x88\x01\x01\x12\"\n" +
+	"\n" +
+	"updated_at\x18\v \x01(\tH\bR\tupdatedAt\x88\x01\x01\x12\"\n" +
+	"\n" +
+	"updated_by\x18\f \x01(\tH\tR\tupdatedBy\x88\x01\x01\x12\"\n" +
+	"\n" +
+	"deleted_at\x18\r \x01(\tH\n" +
+	"R\tdeletedAt\x88\x01\x01B\x10\n" +
 	"\x0e_instructor_idB\f\n" +
 	"\n" +
 	"_course_idB\b\n" +
-	"\x06_titleB\b\n" +
-	"\x06_orderB\t\n" +
-	"\a_status\"\xd7\x01\n" +
+	"\x06_titleB\x10\n" +
+	"\x0e_order_chapterB\t\n" +
+	"\a_statusB\r\n" +
+	"\v_created_atB\r\n" +
+	"\v_created_byB\r\n" +
+	"\v_deleted_byB\r\n" +
+	"\v_updated_atB\r\n" +
+	"\v_updated_byB\r\n" +
+	"\v_deleted_at\"\xe6\x01\n" +
 	"\x18EditCourseChapterRequest\x12/\n" +
 	"\rinstructor_id\x18\x01 \x01(\tB\n" +
 	"\xbaH\ar\x05\x10\x01\x18\xff\x01R\finstructorId\x12'\n" +
 	"\tcourse_id\x18\x02 \x01(\tB\n" +
 	"\xbaH\ar\x05\x10\x01\x18\xff\x01R\bcourseId\x12 \n" +
 	"\x05title\x18\x03 \x01(\tB\n" +
-	"\xbaH\ar\x05\x10\x01\x18\xff\x01R\x05title\x12\x1d\n" +
-	"\x05order\x18\x04 \x01(\x03B\a\xbaH\x04\"\x02(\x00R\x05order\x12 \n" +
+	"\xbaH\ar\x05\x10\x01\x18\xff\x01R\x05title\x12,\n" +
+	"\rorder_chapter\x18\x04 \x01(\x03B\a\xbaH\x04\"\x02(\x00R\forderChapter\x12 \n" +
 	"\x06status\x18\x05 \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01R\x06status\"U\n" +
 	"\x19EditCourseChapterResponse\x12(\n" +
 	"\x04base\x18\x01 \x01(\v2\x14.common.BaseResponseR\x04base\x12\x0e\n" +
