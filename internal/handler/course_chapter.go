@@ -76,25 +76,25 @@ func (ch *courseChapterHandler) EditCourseChapter(ctx context.Context, request *
 	return res, nil
 }
 
-// func (ch *courseChapterHandler) DeleteCourseChapter(ctx context.Context, request *courseChapter.DeleteCourseChapterRequest) (*courseChapter.DeleteCourseChapterResponse, error) {
-// 	validationErrors, err := utils.CheckValidation(request)
-// 	if err != nil {
-// 		return nil, err
-// 	}
+func (ch *courseChapterHandler) DeleteCourseChapter(ctx context.Context, request *course_chapter.DeleteCourseChapterRequest) (*course_chapter.DeleteCourseChapterResponse, error) {
+	validationErrors, err := utils.CheckValidation(request)
+	if err != nil {
+		return nil, err
+	}
 
-// 	if validationErrors != nil {
-// 		return &course_chapter.DeleteCourseChapterResponse{
-// 			Base: utils.ValidationErrorResponse(validationErrors),
-// 		}, nil
-// 	}
+	if validationErrors != nil {
+		return &course_chapter.DeleteCourseChapterResponse{
+			Base: utils.ValidationErrorResponse(validationErrors),
+		}, nil
+	}
 
-// 	res, err := ch.courseChapterService.DeleteCourseChapter(ctx, request)
-// 	if err != nil {
-// 		return nil, err
-// 	}
+	res, err := ch.courseChapterService.DeleteCourseChapter(ctx, request)
+	if err != nil {
+		return nil, err
+	}
 
-// 	return res, nil
-// }
+	return res, nil
+}
 
 func NewCourseChapterHandler(courseChapterService service.ICourseChapterService) *courseChapterHandler {
 	return &courseChapterHandler{

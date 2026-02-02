@@ -19,7 +19,7 @@ type ICourseChapterRepository interface {
 	GetCourseChapterById(ctx context.Context, courseChapterId string) (*entity.CourseChapter, error)
 	GetCourseChapterByIdFieldMask(ctx context.Context, courseChapterId string, paths []string) (*entity.CourseChapter, error)
 	UpdateCourseChapter(ctx context.Context, courseChapter *entity.CourseChapter) error
-	// DeleteCourse(ctx context.Context, id string, deletedAt time.Time, deletedBy string) error
+	DeleteCourseChapter(ctx context.Context, id string, deletedAt time.Time, deletedBy string) error
 }
 
 type courseChapterRepository struct {
@@ -131,7 +131,7 @@ func (sr *courseChapterRepository) UpdateCourseChapter(ctx context.Context, cour
 	return err
 }
 
-func (sr *courseChapterRepository) DeleteCourse(ctx context.Context, id string, deletedAt time.Time, deletedBy string) error {
+func (sr *courseChapterRepository) DeleteCourseChapter(ctx context.Context, id string, deletedAt time.Time, deletedBy string) error {
 	query := `UPDATE course_chapters SET deleted_at = :deleted_at, deleted_by = :deleted_by WHERE id = :id`
 
 	// Kita bungkus data ke dalam map agar bisa dibaca oleh NamedExecContext

@@ -18,7 +18,7 @@ type ICourseChapterService interface {
 	CreateCourseChapter(ctx context.Context, request *course_chapter.CreateCourseChapterRequest) (*course_chapter.CreateCourseChapterResponse, error)
 	DetailCourseChapter(ctx context.Context, request *course_chapter.DetailCourseChapterRequest) (*course_chapter.DetailCourseChapterResponse, error)
 	EditCourseChapter(ctx context.Context, request *course_chapter.EditCourseChapterRequest) (*course_chapter.EditCourseChapterResponse, error)
-	// DeleteCourse(ctx context.Context, request *course_chapter.DeleteCourseChapterRequest) (*course_chapter.DeleteCourseChapterResponse, error)
+	DeleteCourseChapter(ctx context.Context, request *course_chapter.DeleteCourseChapterRequest) (*course_chapter.DeleteCourseChapterResponse, error)
 }
 
 type courseChapterService struct {
@@ -152,7 +152,7 @@ func (cs *courseChapterService) DetailCourseChapter(ctx context.Context, request
 	return res, nil
 }
 
-func (ss *courseChapterService) EditCourseChapter(ctx context.Context, request *course_chapter.EditCourseChapterRequest) (*course_chapter.EditCourseChapterResponse, error) {
+func (cs *courseChapterService) EditCourseChapter(ctx context.Context, request *course_chapter.EditCourseChapterRequest) (*course_chapter.EditCourseChapterResponse, error) {
 	//* Get data token
 	claims, err := jwtentity.GetClaimsFromContext(ctx)
 	if err != nil {
@@ -165,7 +165,7 @@ func (ss *courseChapterService) EditCourseChapter(ctx context.Context, request *
 	}
 
 	// *Apakah Id course ada di DB
-	courseEntity, err := ss.courseChapterRepository.GetCourseChapterById(ctx, request.Id)
+	courseEntity, err := cs.courseChapterRepository.GetCourseChapterById(ctx, request.Id)
 	if err != nil {
 		return nil, err
 	}
@@ -175,7 +175,7 @@ func (ss *courseChapterService) EditCourseChapter(ctx context.Context, request *
 		}, nil
 	}
 
-	tx, err := ss.db.BeginTxx(ctx, nil)
+	tx, err := cs.db.BeginTxx(ctx, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -197,7 +197,7 @@ func (ss *courseChapterService) EditCourseChapter(ctx context.Context, request *
 		}
 	}()
 
-	courseChapterRepo := ss.courseChapterRepository.WithTransaction(tx)
+	courseChapterRepo := cs.courseChapterRepository.WithTransaction(tx)
 
 	// *update ke DB
 	newCourse := entity.CourseChapter{
@@ -224,84 +224,75 @@ func (ss *courseChapterService) EditCourseChapter(ctx context.Context, request *
 
 	// *success
 	return &course_chapter.EditCourseChapterResponse{
-		Base: utils.SuccessResponse("Edit Course Success"),
+		Base: utils.SuccessResponse("Edit Course Chapter Success"),
 		Id:   request.Id,
 	}, nil
 }
 
-// func (ss *courseChapterService) DeleteCourse(ctx context.Context, request *course_chapter.DeleteCourseChapterRequest) (*course_chapter.DeleteCourseChapterResponse, error) {
-// 	//* Get data token
-// 	claims, err := jwtentity.GetClaimsFromContext(ctx)
-// 	if err != nil {
-// 		return nil, err
-// 	}
+func (cs *courseChapterService) DeleteCourseChapter(ctx context.Context, request *course_chapter.DeleteCourseChapterRequest) (*course_chapter.DeleteCourseChapterResponse, error) {
+	//* Get data token
+	claims, err := jwtentity.GetClaimsFromContext(ctx)
+	if err != nil {
+		return nil, err
+	}
 
-// 	//* apakah role user adl Owner
-// 	if claims.Role != entity.UserRoleOwner {
-// 		return nil, utils.UnauthenticatedResponse()
-// 	}
+	//* apakah role user adl Owner
+	if claims.Role != entity.UserRoleOwner {
+		return nil, utils.UnauthenticatedResponse()
+	}
 
-// 	// *Apakah Id course ada di DB
-// 	courseEntity, err := ss.courseRepository.GetCourseById(ctx, request.Id)
-// 	if err != nil {
-// 		return nil, err
-// 	}
-// 	if courseEntity == nil {
-// 		return &course.DeleteCourseChapterResponse{
-// 			Base: utils.NotFoundResponse("Course not found"),
-// 		}, nil
-// 	}
+	// *Apakah Id course ada di DB
+	courseChapterEntity, err := cs.courseChapterRepository.GetCourseChapterById(ctx, request.Id)
+	if err != nil {
+		return nil, err
+	}
+	if courseChapterEntity == nil {
+		return &course_chapter.DeleteCourseChapterResponse{
+			Base: utils.NotFoundResponse("Course Chapter not found"),
+		}, nil
+	}
 
-// 	tx, err := ss.db.BeginTxx(ctx, nil)
-// 	if err != nil {
-// 		return nil, err
-// 	}
+	tx, err := cs.db.BeginTxx(ctx, nil)
+	if err != nil {
+		return nil, err
+	}
 
-// 	defer func() {
-// 		if e := recover(); e != nil {
-// 			if tx != nil {
-// 				tx.Rollback() //?rollback jika ada error saan runtime
-// 			}
+	defer func() {
+		if e := recover(); e != nil {
+			if tx != nil {
+				tx.Rollback() //?rollback jika ada error saan runtime
+			}
 
-// 			debug.PrintStack() //?agar ada stock tracenya yang digunakan utk debug
-// 			panic(e)           //?agar bisa nyampai ke Middleware
-// 		}
-// 	}()
+			debug.PrintStack() //?agar ada stock tracenya yang digunakan utk debug
+			panic(e)           //?agar bisa nyampai ke Middleware
+		}
+	}()
 
-// 	defer func() {
-// 		if err != nil && tx != nil {
-// 			tx.Rollback() //?rollback jika ada error
-// 		}
-// 	}()
+	defer func() {
+		if err != nil && tx != nil {
+			tx.Rollback() //?rollback jika ada error
+		}
+	}()
 
-// 	courseRepo := ss.courseRepository.WithTransaction(tx)
+	courseChapterRepo := cs.courseChapterRepository.WithTransaction(tx)
 
-// 	// *update delete_at & delete_by ke DB
+	// *update delete_at & delete_by ke DB
 
-// 	err = courseRepo.DeleteCourse(ctx, request.Id, time.Now(), claims.FullName)
-// 	if err != nil {
-// 		return nil, err
-// 	}
+	err = courseChapterRepo.DeleteCourseChapter(ctx, request.Id, time.Now(), claims.FullName)
+	if err != nil {
+		return nil, err
+	}
 
-// 	// *jika ada image, hapus image
-// 	if courseEntity.ImageFileName != "" {
-// 		imagePath := filepath.Join("storage", courseEntity.Id, "course", courseEntity.ImageFileName)
-// 		err = os.Remove(imagePath)
-// 		if err != nil {
-// 			return nil, err
-// 		}
-// 	}
+	err = tx.Commit()
+	if err != nil {
+		return nil, err
+	}
 
-// 	err = tx.Commit()
-// 	if err != nil {
-// 		return nil, err
-// 	}
-
-// 	// *success
-// 	return &course.DeleteCourseChapterResponse{
-// 		Base: utils.SuccessResponse("Delete with SoftDelete Course Success"),
-// 	}, nil
-// }
+	// *success
+	return &course_chapter.DeleteCourseChapterResponse{
+		Base: utils.SuccessResponse("Delete with SoftDelete Course Success"),
+	}, nil
+}
 
 func NewCourseChapterService(db *sqlx.DB, courseChapterRepository repository.ICourseChapterRepository) ICourseChapterService {
 	return &courseChapterService{
