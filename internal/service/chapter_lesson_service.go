@@ -18,7 +18,7 @@ type IChapterLessonService interface {
 	CreateChapterLesson(ctx context.Context, request *chapter_lesson.CreateChapterLessonRequest) (*chapter_lesson.CreateChapterLessonResponse, error)
 	DetailChapterLesson(ctx context.Context, request *chapter_lesson.DetailChapterLessonRequest) (*chapter_lesson.DetailChapterLessonResponse, error)
 	EditChapterLesson(ctx context.Context, request *chapter_lesson.EditChapterLessonRequest) (*chapter_lesson.EditChapterLessonResponse, error)
-	// DeleteChapterLesson(ctx context.Context, request *chapter_lesson.DeleteChapterLessonRequest) (*chapter_lesson.DeleteChapterLessonResponse, error)
+	DeleteChapterLesson(ctx context.Context, request *chapter_lesson.DeleteChapterLessonRequest) (*chapter_lesson.DeleteChapterLessonResponse, error)
 }
 
 type chapterLessonService struct {
@@ -263,70 +263,69 @@ func (cs *chapterLessonService) EditChapterLesson(ctx context.Context, request *
 	}, nil
 }
 
-// func (cs *chapterLessonService) DeleteChapterLesson(ctx context.Context, request *chapter_lesson.DeleteChapterLessonRequest) (*chapter_lesson.DeleteChapterLessonResponse, error) {
-// 	//* Get data token
-// 	claims, err := jwtentity.GetClaimsFromContext(ctx)
-// 	if err != nil {
-// 		return nil, err
-// 	}
+func (cs *chapterLessonService) DeleteChapterLesson(ctx context.Context, request *chapter_lesson.DeleteChapterLessonRequest) (*chapter_lesson.DeleteChapterLessonResponse, error) {
+	//* Get data token
+	claims, err := jwtentity.GetClaimsFromContext(ctx)
+	if err != nil {
+		return nil, err
+	}
 
-// 	//* apakah role user adl Owner
-// 	if claims.Role != entity.UserRoleOwner {
-// 		return nil, utils.UnauthenticatedResponse()
-// 	}
+	//* apakah role user adl Owner
+	if claims.Role != entity.UserRoleOwner {
+		return nil, utils.UnauthenticatedResponse()
+	}
 
-// 	// *Apakah Id course ada di DB
-// 	chapterLessonEntity, err := cs.chapterLessonRepository.GetChapterLessonById(ctx, request.Id)
-// 	if err != nil {
-// 		return nil, err
-// 	}
-// 	if chapterLessonEntity == nil {
-// 		return &chapter_lesson.DeleteChapterLessonResponse{
-// 			Base: utils.NotFoundResponse("Course Chapter not found"),
-// 		}, nil
-// 	}
+	// *Apakah Id course ada di DB
+	chapterLessonEntity, err := cs.chapterLessonRepository.GetChapterLessonById(ctx, request.Id)
+	if err != nil {
+		return nil, err
+	}
+	if chapterLessonEntity == nil {
+		return &chapter_lesson.DeleteChapterLessonResponse{
+			Base: utils.NotFoundResponse("Course Chapter Lesson not found"),
+		}, nil
+	}
 
-// 	tx, err := cs.db.BeginTxx(ctx, nil)
-// 	if err != nil {
-// 		return nil, err
-// 	}
+	tx, err := cs.db.BeginTxx(ctx, nil)
+	if err != nil {
+		return nil, err
+	}
 
-// 	defer func() {
-// 		if e := recover(); e != nil {
-// 			if tx != nil {
-// 				tx.Rollback() //?rollback jika ada error saan runtime
-// 			}
+	defer func() {
+		if e := recover(); e != nil {
+			if tx != nil {
+				tx.Rollback() //?rollback jika ada error saan runtime
+			}
 
-// 			debug.PrintStack() //?agar ada stock tracenya yang digunakan utk debug
-// 			panic(e)           //?agar bisa nyampai ke Middleware
-// 		}
-// 	}()
+			debug.PrintStack() //?agar ada stock tracenya yang digunakan utk debug
+			panic(e)           //?agar bisa nyampai ke Middleware
+		}
+	}()
 
-// 	defer func() {
-// 		if err != nil && tx != nil {
-// 			tx.Rollback() //?rollback jika ada error
-// 		}
-// 	}()
+	defer func() {
+		if err != nil && tx != nil {
+			tx.Rollback() //?rollback jika ada error
+		}
+	}()
 
-// 	chapterLessonRepo := cs.chapterLessonRepository.WithTransaction(tx)
+	chapterLessonRepo := cs.chapterLessonRepository.WithTransaction(tx)
 
-// 	// *update delete_at & delete_by ke DB
+	// *update delete_at & delete_by ke DB
+	err = chapterLessonRepo.DeleteChapterLesson(ctx, request.Id, time.Now(), claims.FullName)
+	if err != nil {
+		return nil, err
+	}
 
-// 	err = chapterLessonRepo.DeleteChapterLesson(ctx, request.Id, time.Now(), claims.FullName)
-// 	if err != nil {
-// 		return nil, err
-// 	}
+	err = tx.Commit()
+	if err != nil {
+		return nil, err
+	}
 
-// 	err = tx.Commit()
-// 	if err != nil {
-// 		return nil, err
-// 	}
-
-// 	// *success
-// 	return &chapter_lesson.DeleteChapterLessonResponse{
-// 		Base: utils.SuccessResponse("Delete with SoftDelete Course Success"),
-// 	}, nil
-// }
+	// *success
+	return &chapter_lesson.DeleteChapterLessonResponse{
+		Base: utils.SuccessResponse("Delete with SoftDelete Course Chapter Lesson Success"),
+	}, nil
+}
 
 func NewChapterLessonService(db *sqlx.DB, chapterLessonRepository repository.IChapterLessonRepository) IChapterLessonService {
 	return &chapterLessonService{
