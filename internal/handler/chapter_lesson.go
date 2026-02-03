@@ -35,26 +35,26 @@ func (lh *chapterLessonHandler) CreateChapterLesson(ctx context.Context, request
 	return res, nil
 }
 
-// func (ch *chapterLessonHandler) DetailChapterLesson(ctx context.Context, request *chapter_lesson.DetailChapterLessonRequest) (*chapter_lesson.DetailChapterLessonResponse, error) {
-// 	//? validasi request
-// 	validationErrors, err := utils.CheckValidation(request)
-// 	if err != nil {
-// 		return nil, err
-// 	}
+func (lh *chapterLessonHandler) DetailChapterLesson(ctx context.Context, request *chapter_lesson.DetailChapterLessonRequest) (*chapter_lesson.DetailChapterLessonResponse, error) {
+	//? validasi request
+	validationErrors, err := utils.CheckValidation(request)
+	if err != nil {
+		return nil, err
+	}
 
-// 	if validationErrors != nil {
-// 		return &chapter_lesson.DetailChapterLessonResponse{
-// 			Base: utils.ValidationErrorResponse(validationErrors),
-// 		}, nil
-// 	}
+	if validationErrors != nil {
+		return &chapter_lesson.DetailChapterLessonResponse{
+			Base: utils.ValidationErrorResponse(validationErrors),
+		}, nil
+	}
 
-// 	res, err := ch.chapterLessonService.DetailChapterLesson(ctx, request)
-// 	if err != nil {
-// 		return nil, err
-// 	}
+	res, err := lh.chapterLessonService.DetailChapterLesson(ctx, request)
+	if err != nil {
+		return nil, err
+	}
 
-// 	return res, nil
-// }
+	return res, nil
+}
 
 // func (ch *chapterLessonHandler) EditChapterLesson(ctx context.Context, request *chapter_lesson.EditChapterLessonRequest) (*chapter_lesson.EditChapterLessonResponse, error) {
 // 	validationErrors, err := utils.CheckValidation(request)

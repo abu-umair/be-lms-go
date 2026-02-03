@@ -16,7 +16,7 @@ import (
 
 type IChapterLessonService interface {
 	CreateChapterLesson(ctx context.Context, request *chapter_lesson.CreateChapterLessonRequest) (*chapter_lesson.CreateChapterLessonResponse, error)
-	// DetailChapterLesson(ctx context.Context, request *chapter_lesson.DetailChapterLessonRequest) (*chapter_lesson.DetailChapterLessonResponse, error)
+	DetailChapterLesson(ctx context.Context, request *chapter_lesson.DetailChapterLessonRequest) (*chapter_lesson.DetailChapterLessonResponse, error)
 	// EditChapterLesson(ctx context.Context, request *chapter_lesson.EditChapterLessonRequest) (*chapter_lesson.EditChapterLessonResponse, error)
 	// DeleteChapterLesson(ctx context.Context, request *chapter_lesson.DeleteChapterLessonRequest) (*chapter_lesson.DeleteChapterLessonResponse, error)
 }
@@ -102,66 +102,78 @@ func (ls *chapterLessonService) CreateChapterLesson(ctx context.Context, request
 	}, nil
 }
 
-// func (cs *chapterLessonService) DetailChapterLesson(ctx context.Context, request *chapter_lesson.DetailChapterLessonRequest) (*chapter_lesson.DetailChapterLessonResponse, error) {
+func (cs *chapterLessonService) DetailChapterLesson(ctx context.Context, request *chapter_lesson.DetailChapterLessonRequest) (*chapter_lesson.DetailChapterLessonResponse, error) {
 
-// 	//* Get data token
-// 	claims, err := jwtentity.GetClaimsFromContext(ctx)
-// 	if err != nil {
-// 		return nil, err
-// 	}
+	//* Get data token
+	claims, err := jwtentity.GetClaimsFromContext(ctx)
+	if err != nil {
+		return nil, err
+	}
 
-// 	//* apakah role user adl Owner
-// 	if claims.Role != entity.UserRoleOwner {
-// 		return nil, utils.UnauthenticatedResponse()
-// 	}
+	//* apakah role user adl Owner
+	if claims.Role != entity.UserRoleOwner {
+		return nil, utils.UnauthenticatedResponse()
+	}
 
-// 	// * Get chapter_lessons by chapter_id
-// 	// Misal request.FieldMask.Paths berisi ["name", "address"]
-// 	paths := []string{"id"} // ID wajib ada untuk mapping
-// 	if request.FieldMask != nil {
-// 		paths = append(paths, request.FieldMask.Paths...)
-// 	}
+	// * Get chapter_lessons by lesson_id
+	// Misal request.FieldMask.Paths berisi ["name", "address"]
+	paths := []string{"id"} // ID wajib ada untuk mapping
+	if request.FieldMask != nil {
+		paths = append(paths, request.FieldMask.Paths...)
+	}
 
-// 	chapterLessonEntity, err := cs.chapterLessonRepository.GetChapterLessonByIdFieldMask(ctx, request.Id, paths)
-// 	if err != nil {
-// 		return nil, err
-// 	}
+	chapterLessonEntity, err := cs.chapterLessonRepository.GetChapterLessonByIdFieldMask(ctx, request.Id, paths)
+	if err != nil {
+		return nil, err
+	}
 
-// 	//* Apabila null chapter_id, return not found
-// 	if chapterLessonEntity == nil {
-// 		return &chapter_lesson.DetailChapterLessonResponse{
-// 			Base: utils.NotFoundResponse("Course chapter not found"),
-// 		}, nil
-// 	}
+	//* Apabila null lesson_id, return not found
+	if chapterLessonEntity == nil {
+		return &chapter_lesson.DetailChapterLessonResponse{
+			Base: utils.NotFoundResponse("Course chapter lesson not found"),
+		}, nil
+	}
 
-// 	// *success
-// 	res := &chapter_lesson.DetailChapterLessonResponse{
-// 		Base: utils.SuccessResponse("Course Chapter Detail Success"),
-// 		Id:   chapterLessonEntity.Id,
-// 	}
+	// *success
+	res := &chapter_lesson.DetailChapterLessonResponse{
+		Base: utils.SuccessResponse("Course Chapter lesson Detail Success"),
+		Id:   chapterLessonEntity.Id,
+	}
 
-// 	// Cek Name: Jika kosong (tidak di-select), res.Name tetap nil (tidak muncul di JSON)
-// 	//? Mapping Field String Biasa (Non-Pointer di Struct)
-// 	res.Title = utils.StringToPtr(chapterLessonEntity.Title)
-// 	res.InstructorId = utils.StringToPtr(chapterLessonEntity.InstructorId)
-// 	res.CourseId = utils.StringToPtr(chapterLessonEntity.CourseId)
-// 	res.Status = utils.StringToPtr(chapterLessonEntity.Status)
-// 	res.CreatedBy = utils.StringToPtr(chapterLessonEntity.CreatedBy)
+	// Cek Name: Jika kosong (tidak di-select), res.Name tetap nil (tidak muncul di JSON)
+	//? Mapping karena wajib
+	res.Title = chapterLessonEntity.Title
+	res.OrderLesson = chapterLessonEntity.OrderLesson
 
-// 	//?Mapping Field Pointer String (*string di Struct)
-// 	res.UpdatedBy = utils.PtrStringToPtr(chapterLessonEntity.UpdatedBy)
-// 	res.DeletedBy = utils.PtrStringToPtr(chapterLessonEntity.DeletedBy)
+	//? Mapping Field String Biasa (Non-Pointer di Struct)
+	res.InstructorId = utils.PtrStringToPtr(chapterLessonEntity.InstructorId)
+	res.CourseId = utils.PtrStringToPtr(chapterLessonEntity.CourseId)
+	res.ChapterId = utils.PtrStringToPtr(chapterLessonEntity.ChapterId)
+	res.Slug = utils.PtrStringToPtr(chapterLessonEntity.Slug)
+	res.Description = utils.PtrStringToPtr(chapterLessonEntity.Description)
+	res.FilePath = utils.PtrStringToPtr(chapterLessonEntity.FilePath)
+	res.StorageLesson = utils.PtrStringToPtr(chapterLessonEntity.StorageLesson)
+	res.LessonType = utils.PtrStringToPtr(chapterLessonEntity.LessonType)
+	res.Volume = utils.PtrStringToPtr(chapterLessonEntity.Volume)
+	res.Duration = utils.PtrStringToPtr(chapterLessonEntity.Duration)
+	res.FileType = utils.PtrStringToPtr(chapterLessonEntity.FileType)
+	res.Downloadable = utils.PtrStringToPtr(chapterLessonEntity.Downloadable)
+	res.IsPreview = utils.PtrInt64ToPtr(chapterLessonEntity.IsPreview)
+	res.Status = utils.PtrStringToPtr(chapterLessonEntity.Status)
 
-// 	//? Mapping Angka int64 biasa
-// 	res.OrderChapter = utils.Int64ToPtr(chapterLessonEntity.OrderChapter)
+	res.CreatedBy = utils.StringToPtr(chapterLessonEntity.CreatedBy)
 
-// 	//? Mapping Waktu (Time)
-// 	res.CreatedAt = utils.TimeToPtr(chapterLessonEntity.CreatedAt)
-// 	res.UpdatedAt = utils.TimeToPtr(chapterLessonEntity.UpdatedAt)
-// 	res.DeletedAt = utils.PtrTimeToPtr(chapterLessonEntity.DeletedAt)
+	//?Mapping Field Pointer String (*string di Struct)
+	res.UpdatedBy = utils.PtrStringToPtr(chapterLessonEntity.UpdatedBy)
+	res.DeletedBy = utils.PtrStringToPtr(chapterLessonEntity.DeletedBy)
 
-// 	return res, nil
-// }
+	//? Mapping Waktu (Time)
+	res.CreatedAt = utils.TimeToPtr(chapterLessonEntity.CreatedAt)
+	res.UpdatedAt = utils.TimeToPtr(chapterLessonEntity.UpdatedAt)
+	res.DeletedAt = utils.PtrTimeToPtr(chapterLessonEntity.DeletedAt)
+
+	return res, nil
+}
 
 // func (cs *chapterLessonService) EditChapterLesson(ctx context.Context, request *chapter_lesson.EditChapterLessonRequest) (*chapter_lesson.EditChapterLessonResponse, error) {
 // 	//* Get data token

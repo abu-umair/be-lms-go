@@ -154,9 +154,24 @@ func NewChapterLessonRepository(db database.DatabaseQuery) IChapterLessonReposit
 	return &chapterLessonRepository{
 		db: db,
 		whitelist: map[string]bool{
-			"id": true, "instructor_id": true, "course_id": true, "title": true,
-			"order_chapter": true, "status": true,
-			"created_at": true, "created_by": true, "updated_at": true,
+			"id":             true,
+			"title":          true,
+			"slug":           true,
+			"order_lesson":   true,
+			"description":    true,
+			"file_path":      true,
+			"storage_lesson": true,
+			"lesson_type":    true,
+			"volume":         true,
+			"duration":       true,
+			"file_type":      true,
+			"downloadable":   true,
+			"is_preview":     true,
+			"status":         true,
+			"instructor_id":  true,
+			"course_id":      true,
+			
+			"created_at":     true, "created_by": true, "updated_at": true,
 			"updated_by": true, "deleted_at": true, "deleted_by": true,
 		},
 	}

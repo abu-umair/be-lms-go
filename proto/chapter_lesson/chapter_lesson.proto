@@ -59,7 +59,7 @@ message DetailChapterLessonResponse {
   optional string duration = 12 [(buf.validate.field).string = { max_len: 255 }];
   optional string file_type = 13 [(buf.validate.field).string = { max_len: 255 }];
   optional string downloadable = 14 [(buf.validate.field).string = { max_len: 255 }];
-  optional int64 is_preview = 15 [(buf.validate.field).int64.gte = 0];
+  optional int64  is_preview = 15 [(buf.validate.field).int64.gte = 0];
   optional string status = 16 [(buf.validate.field).string = { max_len: 255 }];
   optional string instructor_id = 17 [(buf.validate.field).string = { min_len: 1, max_len: 255 }];
   optional string course_id = 18 [(buf.validate.field).string = { min_len: 1, max_len: 255 }];
