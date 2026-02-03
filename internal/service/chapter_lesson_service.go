@@ -17,7 +17,7 @@ import (
 type IChapterLessonService interface {
 	CreateChapterLesson(ctx context.Context, request *chapter_lesson.CreateChapterLessonRequest) (*chapter_lesson.CreateChapterLessonResponse, error)
 	DetailChapterLesson(ctx context.Context, request *chapter_lesson.DetailChapterLessonRequest) (*chapter_lesson.DetailChapterLessonResponse, error)
-	// EditChapterLesson(ctx context.Context, request *chapter_lesson.EditChapterLessonRequest) (*chapter_lesson.EditChapterLessonResponse, error)
+	EditChapterLesson(ctx context.Context, request *chapter_lesson.EditChapterLessonRequest) (*chapter_lesson.EditChapterLessonResponse, error)
 	// DeleteChapterLesson(ctx context.Context, request *chapter_lesson.DeleteChapterLessonRequest) (*chapter_lesson.DeleteChapterLessonResponse, error)
 }
 
@@ -175,82 +175,93 @@ func (cs *chapterLessonService) DetailChapterLesson(ctx context.Context, request
 	return res, nil
 }
 
-// func (cs *chapterLessonService) EditChapterLesson(ctx context.Context, request *chapter_lesson.EditChapterLessonRequest) (*chapter_lesson.EditChapterLessonResponse, error) {
-// 	//* Get data token
-// 	claims, err := jwtentity.GetClaimsFromContext(ctx)
-// 	if err != nil {
-// 		return nil, err
-// 	}
+func (cs *chapterLessonService) EditChapterLesson(ctx context.Context, request *chapter_lesson.EditChapterLessonRequest) (*chapter_lesson.EditChapterLessonResponse, error) {
+	//* Get data token
+	claims, err := jwtentity.GetClaimsFromContext(ctx)
+	if err != nil {
+		return nil, err
+	}
 
-// 	//* apakah role user adl Owner
-// 	if claims.Role != entity.UserRoleOwner {
-// 		return nil, utils.UnauthenticatedResponse()
-// 	}
+	//* apakah role user adl Owner
+	if claims.Role != entity.UserRoleOwner {
+		return nil, utils.UnauthenticatedResponse()
+	}
 
-// 	// *Apakah Id course ada di DB
-// 	courseEntity, err := cs.chapterLessonRepository.GetChapterLessonById(ctx, request.Id)
-// 	if err != nil {
-// 		return nil, err
-// 	}
-// 	if courseEntity == nil {
-// 		return &chapter_lesson.EditChapterLessonResponse{
-// 			Base: utils.NotFoundResponse("Course chapter not found"),
-// 		}, nil
-// 	}
+	// *Apakah Id course ada di DB
+	courseEntity, err := cs.chapterLessonRepository.GetChapterLessonById(ctx, request.Id)
+	if err != nil {
+		return nil, err
+	}
+	if courseEntity == nil {
+		return &chapter_lesson.EditChapterLessonResponse{
+			Base: utils.NotFoundResponse("Course chapter not found"),
+		}, nil
+	}
 
-// 	tx, err := cs.db.BeginTxx(ctx, nil)
-// 	if err != nil {
-// 		return nil, err
-// 	}
+	tx, err := cs.db.BeginTxx(ctx, nil)
+	if err != nil {
+		return nil, err
+	}
 
-// 	defer func() {
-// 		if e := recover(); e != nil {
-// 			if tx != nil {
-// 				tx.Rollback() //?rollback jika ada error saan runtime
-// 			}
+	defer func() {
+		if e := recover(); e != nil {
+			if tx != nil {
+				tx.Rollback() //?rollback jika ada error saan runtime
+			}
 
-// 			debug.PrintStack() //?agar ada stock tracenya yang digunakan utk debug
-// 			panic(e)           //?agar bisa nyampai ke Middleware
-// 		}
-// 	}()
+			debug.PrintStack() //?agar ada stock tracenya yang digunakan utk debug
+			panic(e)           //?agar bisa nyampai ke Middleware
+		}
+	}()
 
-// 	defer func() {
-// 		if err != nil && tx != nil {
-// 			tx.Rollback() //?rollback jika ada error
-// 		}
-// 	}()
+	defer func() {
+		if err != nil && tx != nil {
+			tx.Rollback() //?rollback jika ada error
+		}
+	}()
 
-// 	chapterLessonRepo := cs.chapterLessonRepository.WithTransaction(tx)
+	chapterLessonRepo := cs.chapterLessonRepository.WithTransaction(tx)
 
-// 	// *update ke DB
-// 	newCourse := entity.ChapterLesson{
-// 		Id:           request.Id,
-// 		InstructorId: request.InstructorId,
-// 		CourseId:     request.CourseId,
-// 		Title:        request.Title,
-// 		OrderChapter: request.OrderChapter,
-// 		Status:       request.Status,
+	// *update ke DB
+	newCourse := entity.ChapterLesson{
+		Id:            request.Id,
+		InstructorId:  request.InstructorId,
+		CourseId:      request.CourseId,
+		Title:         request.Title,
+		OrderLesson:   request.OrderLesson,
+		ChapterId:     request.ChapterId,
+		Slug:          request.Slug,
+		Description:   request.Description,
+		FilePath:      request.FilePath,
+		StorageLesson: request.StorageLesson,
+		LessonType:    request.LessonType,
+		Volume:        request.Volume,
+		Duration:      request.Duration,
+		FileType:      request.FileType,
+		Downloadable:  request.Downloadable,
+		IsPreview:     request.IsPreview,
+		Status:        request.Status,
 
-// 		UpdatedAt: time.Now(),
-// 		UpdatedBy: &claims.FullName,
-// 	}
+		UpdatedAt: time.Now(),
+		UpdatedBy: &claims.FullName,
+	}
 
-// 	err = chapterLessonRepo.UpdateChapterLesson(ctx, &newCourse)
-// 	if err != nil {
-// 		return nil, err
-// 	}
+	err = chapterLessonRepo.UpdateChapterLesson(ctx, &newCourse)
+	if err != nil {
+		return nil, err
+	}
 
-// 	err = tx.Commit()
-// 	if err != nil {
-// 		return nil, err
-// 	}
+	err = tx.Commit()
+	if err != nil {
+		return nil, err
+	}
 
-// 	// *success
-// 	return &chapter_lesson.EditChapterLessonResponse{
-// 		Base: utils.SuccessResponse("Edit Course Chapter Success"),
-// 		Id:   request.Id,
-// 	}, nil
-// }
+	// *success
+	return &chapter_lesson.EditChapterLessonResponse{
+		Base: utils.SuccessResponse("Edit Course Chapter Lesson Success"),
+		Id:   request.Id,
+	}, nil
+}
 
 // func (cs *chapterLessonService) DeleteChapterLesson(ctx context.Context, request *chapter_lesson.DeleteChapterLessonRequest) (*chapter_lesson.DeleteChapterLessonResponse, error) {
 // 	//* Get data token

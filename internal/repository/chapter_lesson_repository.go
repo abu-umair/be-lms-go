@@ -117,12 +117,23 @@ func (sr *chapterLessonRepository) UpdateChapterLesson(ctx context.Context, chap
 	query := `
 		UPDATE course_chapter_lessons
 		SET
-			instructor_id = :instructor_id,
-			course_id = :course_id,
-			title = :title,
-			order_chapter = :order_chapter,
-			status = :status,
-			
+			instructor_id= :instructor_id,
+			course_id= :course_id,
+			title= :title,
+			order_lesson= :order_lesson,
+			chapter_id= :chapter_id,
+			slug= :slug,
+			description= :description,
+			file_path= :file_path,
+			storage_lesson= :storage_lesson,
+			lesson_type= :lesson_type,
+			volume= :volume,
+			duration= :duration,
+			file_type= :file_type,
+			downloadable= :downloadable,
+			is_preview= :is_preview,
+			status= :status,
+
 			updated_at = :updated_at,
 			updated_by = :updated_by
 		WHERE id = :id`
@@ -170,8 +181,8 @@ func NewChapterLessonRepository(db database.DatabaseQuery) IChapterLessonReposit
 			"status":         true,
 			"instructor_id":  true,
 			"course_id":      true,
-			
-			"created_at":     true, "created_by": true, "updated_at": true,
+
+			"created_at": true, "created_by": true, "updated_at": true,
 			"updated_by": true, "deleted_at": true, "deleted_by": true,
 		},
 	}
