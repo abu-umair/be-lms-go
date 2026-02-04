@@ -49,3 +49,15 @@ https://www.youtube.com/watch?v=V7fY776aGgM
 ```bash
 go install github.com/air-verse/air@latest
 ```
+
+### Integrasi API Login FE
+#### History Steps
+1. Run Server
+```bash
+go run main.go
+```
+
+2. juga Run gRPC web proxy
+```bash
+grpcwebproxy --backend_addr=localhost:50051 --server_bind_address=0.0.0.0 --server_http_debug_port=8080 --run_tls_server=false --backend_max_call_recv_msg_size=577659248 --allow_all_origins
+```
