@@ -33,8 +33,8 @@ func (cs *courseChapterService) CreateCourseChapter(ctx context.Context, request
 		return nil, err
 	}
 
-	//* apakah role user adl Owner
-	if claims.Role != entity.UserRoleOwner {
+	//* apakah role user adl Instructor
+	if claims.Role != entity.UserRoleInstructor {
 		return nil, utils.UnauthenticatedResponse()
 	}
 
@@ -99,8 +99,8 @@ func (cs *courseChapterService) DetailCourseChapter(ctx context.Context, request
 		return nil, err
 	}
 
-	//* apakah role user adl Owner
-	if claims.Role != entity.UserRoleOwner {
+	//* apakah role user adl Instructor
+	if claims.Role != entity.UserRoleInstructor {
 		return nil, utils.UnauthenticatedResponse()
 	}
 
@@ -159,8 +159,8 @@ func (cs *courseChapterService) EditCourseChapter(ctx context.Context, request *
 		return nil, err
 	}
 
-	//* apakah role user adl Owner
-	if claims.Role != entity.UserRoleOwner {
+	//* apakah role user adl Instructor
+	if claims.Role != entity.UserRoleInstructor {
 		return nil, utils.UnauthenticatedResponse()
 	}
 
@@ -236,8 +236,8 @@ func (cs *courseChapterService) DeleteCourseChapter(ctx context.Context, request
 		return nil, err
 	}
 
-	//* apakah role user adl Owner
-	if claims.Role != entity.UserRoleOwner {
+	//* apakah role user adl Instructor
+	if claims.Role != entity.UserRoleInstructor {
 		return nil, utils.UnauthenticatedResponse()
 	}
 

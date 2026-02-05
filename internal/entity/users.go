@@ -3,11 +3,9 @@ package entity
 import "time"
 
 const ( //? kebutuhan di layer service (insert ke DB)
-	UserRoleUser         = "user"
-	UserRoleKitchenStaff = "kitchenstaff"
-	UserRoleCashier      = "cashier"
-	UserRoleOwner        = "owner"
-	UserRoleAdmin        = "admin"
+	UserRoleUser       = "user"
+	UserRoleInstructor = "instructor"
+	UserRoleAdmin      = "admin"
 )
 
 type UserRoles struct {

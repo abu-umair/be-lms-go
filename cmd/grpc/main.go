@@ -35,7 +35,7 @@ func main() {
 
 	log.Println("Connected to DB")
 
-	cacheService := gocache.New(time.Hour*24, time.Hour*24)
+	cacheService := gocache.New(time.Hour*244, time.Hour*244)
 
 	authMiddleware := grpcmiddleware.NewAuthMiddleware(cacheService)
 

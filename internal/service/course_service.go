@@ -36,8 +36,8 @@ func (ss *courseService) CreateCourse(ctx context.Context, request *course.Creat
 		return nil, err
 	}
 
-	//* apakah role user adl Owner
-	if claims.Role != entity.UserRoleOwner {
+	//* apakah role user adl Instructor
+	if claims.Role != entity.UserRoleInstructor {
 		return nil, utils.UnauthenticatedResponse()
 	}
 
@@ -155,8 +155,8 @@ func (ss *courseService) DetailCourse(ctx context.Context, request *course.Detai
 		return nil, err
 	}
 
-	//* apakah role user adl Owner
-	if claims.Role != entity.UserRoleOwner {
+	//* apakah role user adl Instructor
+	if claims.Role != entity.UserRoleInstructor {
 		return nil, utils.UnauthenticatedResponse()
 	}
 
@@ -239,8 +239,8 @@ func (ss *courseService) EditCourse(ctx context.Context, request *course.EditCou
 		return nil, err
 	}
 
-	//* apakah role user adl Owner
-	if claims.Role != entity.UserRoleOwner {
+	//* apakah role user adl Instructor
+	if claims.Role != entity.UserRoleInstructor {
 		return nil, utils.UnauthenticatedResponse()
 	}
 
@@ -378,8 +378,8 @@ func (ss *courseService) DeleteCourse(ctx context.Context, request *course.Delet
 		return nil, err
 	}
 
-	//* apakah role user adl Owner
-	if claims.Role != entity.UserRoleOwner {
+	//* apakah role user adl Instructor
+	if claims.Role != entity.UserRoleInstructor {
 		return nil, utils.UnauthenticatedResponse()
 	}
 

@@ -52,7 +52,7 @@ func UploadCourseImageHandler(c *fiber.Ctx) error {
 
 	//* 4. CEK & BUAT FOLDER (os.MkdirAll)
 	if !isUpdate { //? buat folder utk CREATE saja
-		// 0755 adalah permission standar (read/write untuk owner, read untuk lainnya)
+		// 0755 adalah permission standar (read/write untuk instructor, read untuk lainnya)
 		err = os.MkdirAll(folderPath, 0755)
 		if err != nil {
 			return c.Status(http.StatusInternalServerError).JSON(fiber.Map{
