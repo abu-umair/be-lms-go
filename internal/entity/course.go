@@ -9,7 +9,7 @@ import (
 type Course struct {
 	Id                 string           `db:"id"`
 	Name               string           `db:"name"`
-	Address            string           `db:"address"`
+	Address            *string          `db:"address"`
 	ImageFileName      string           `db:"image_file_name"`
 	CreatedAt          time.Time        `db:"created_at"`
 	CreatedBy          string           `db:"created_by"`
@@ -28,7 +28,7 @@ type Course struct {
 	DemoVideoStorage   *string          `db:"demo_video_storage"`
 	DemoVideoSource    *string          `db:"demo_video_source"`
 	Description        *string          `db:"description"`
-	Capacity           *int64           `db:"capacity"`
+	Capacity           *int32           `db:"capacity"`
 	Price              *decimal.Decimal `db:"price"`
 	Discount           *decimal.Decimal `db:"discount"`
 	Certificate        *string          `db:"certificate"`

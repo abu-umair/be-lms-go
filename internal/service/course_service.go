@@ -188,7 +188,7 @@ func (ss *courseService) DetailCourse(ctx context.Context, request *course.Detai
 	// Cek Name: Jika kosong (tidak di-select), res.Name tetap nil (tidak muncul di JSON)
 	//? Mapping Field String Biasa (Non-Pointer di Struct)
 	res.Name = utils.StringToPtr(courseEntity.Name)
-	res.Address = utils.StringToPtr(courseEntity.Address)
+	res.Address = utils.PtrStringToPtr(courseEntity.Address)
 	res.CreatedBy = utils.StringToPtr(courseEntity.CreatedBy)
 
 	//?Mapping Field Pointer String (*string di Struct)
@@ -214,7 +214,7 @@ func (ss *courseService) DetailCourse(ctx context.Context, request *course.Detai
 	res.DeletedBy = utils.PtrStringToPtr(courseEntity.DeletedBy)
 
 	//? Mapping Angka dan Harga (Int64 & Decimal)
-	res.Capacity = utils.PtrInt64ToPtr(courseEntity.Capacity)
+	res.Capacity = utils.PtrInt32ToPtr(courseEntity.Capacity)
 	res.Price = utils.PtrDecimalToPtr(courseEntity.Price)
 	res.Discount = utils.PtrDecimalToPtr(courseEntity.Discount)
 

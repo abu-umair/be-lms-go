@@ -33,6 +33,28 @@ func Int64ToPtr(i int64) *int64 {
 	return &i
 }
 
+// Int32ToPtr mengubah int32 menjadi pointer.
+func Int32ToPtr(i int32) *int32 {
+	if i == 0 {
+		return nil
+	}
+	return &i
+}
+
+// PtrInt32ToPtr menangani *int32.
+func PtrInt32ToPtr(i *int32) *int32 {
+	if i == nil || *i == 0 {
+		return nil
+	}
+	return i
+}
+
+// Int32ToStringPtr mengubah int32 menjadi pointer string.
+func Int32ToStringPtr(i int32) *string {
+	s := strconv.FormatInt(int64(i), 10)
+	return &s
+}
+
 // PtrInt64ToPtr menangani *int64 (seperti field Capacity).
 func PtrInt64ToPtr(i *int64) *int64 {
 	return i

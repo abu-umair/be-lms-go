@@ -28,7 +28,7 @@ type CreateCourseRequest struct {
 	state              protoimpl.MessageState `protogen:"open.v1"`
 	Id                 string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	Name               string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	Address            string                 `protobuf:"bytes,3,opt,name=address,proto3" json:"address,omitempty"`
+	Address            *string                `protobuf:"bytes,3,opt,name=address,proto3,oneof" json:"address,omitempty"`
 	ImageFileName      string                 `protobuf:"bytes,4,opt,name=image_file_name,json=imageFileName,proto3" json:"image_file_name,omitempty"`
 	Slug               *string                `protobuf:"bytes,5,opt,name=slug,proto3,oneof" json:"slug,omitempty"`
 	CategoryId         *string                `protobuf:"bytes,6,opt,name=category_id,json=categoryId,proto3,oneof" json:"category_id,omitempty"`
@@ -41,7 +41,7 @@ type CreateCourseRequest struct {
 	DemoVideoStorage   *string                `protobuf:"bytes,13,opt,name=demo_video_storage,json=demoVideoStorage,proto3,oneof" json:"demo_video_storage,omitempty"`
 	DemoVideoSource    *string                `protobuf:"bytes,14,opt,name=demo_video_source,json=demoVideoSource,proto3,oneof" json:"demo_video_source,omitempty"`
 	Description        *string                `protobuf:"bytes,15,opt,name=description,proto3,oneof" json:"description,omitempty"`
-	Capacity           *int64                 `protobuf:"varint,16,opt,name=capacity,proto3,oneof" json:"capacity,omitempty"`
+	Capacity           *int32                 `protobuf:"varint,16,opt,name=capacity,proto3,oneof" json:"capacity,omitempty"`
 	Price              *string                `protobuf:"bytes,17,opt,name=price,proto3,oneof" json:"price,omitempty"`
 	Discount           *string                `protobuf:"bytes,18,opt,name=discount,proto3,oneof" json:"discount,omitempty"`
 	Certificate        *string                `protobuf:"bytes,19,opt,name=certificate,proto3,oneof" json:"certificate,omitempty"`
@@ -101,8 +101,8 @@ func (x *CreateCourseRequest) GetName() string {
 }
 
 func (x *CreateCourseRequest) GetAddress() string {
-	if x != nil {
-		return x.Address
+	if x != nil && x.Address != nil {
+		return *x.Address
 	}
 	return ""
 }
@@ -191,7 +191,7 @@ func (x *CreateCourseRequest) GetDescription() string {
 	return ""
 }
 
-func (x *CreateCourseRequest) GetCapacity() int64 {
+func (x *CreateCourseRequest) GetCapacity() int32 {
 	if x != nil && x.Capacity != nil {
 		return *x.Capacity
 	}
@@ -389,7 +389,7 @@ type DetailCourseResponse struct {
 	DemoVideoStorage   *string                `protobuf:"bytes,13,opt,name=demo_video_storage,json=demoVideoStorage,proto3,oneof" json:"demo_video_storage,omitempty"`
 	DemoVideoSource    *string                `protobuf:"bytes,14,opt,name=demo_video_source,json=demoVideoSource,proto3,oneof" json:"demo_video_source,omitempty"`
 	Description        *string                `protobuf:"bytes,15,opt,name=description,proto3,oneof" json:"description,omitempty"`
-	Capacity           *int64                 `protobuf:"varint,16,opt,name=capacity,proto3,oneof" json:"capacity,omitempty"`
+	Capacity           *int32                 `protobuf:"varint,16,opt,name=capacity,proto3,oneof" json:"capacity,omitempty"`
 	Price              *string                `protobuf:"bytes,17,opt,name=price,proto3,oneof" json:"price,omitempty"`
 	Discount           *string                `protobuf:"bytes,18,opt,name=discount,proto3,oneof" json:"discount,omitempty"`
 	Certificate        *string                `protobuf:"bytes,19,opt,name=certificate,proto3,oneof" json:"certificate,omitempty"`
@@ -546,7 +546,7 @@ func (x *DetailCourseResponse) GetDescription() string {
 	return ""
 }
 
-func (x *DetailCourseResponse) GetCapacity() int64 {
+func (x *DetailCourseResponse) GetCapacity() int32 {
 	if x != nil && x.Capacity != nil {
 		return *x.Capacity
 	}
@@ -676,7 +676,7 @@ type EditCourseRequest struct {
 	state              protoimpl.MessageState `protogen:"open.v1"`
 	Id                 string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	Name               string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	Address            string                 `protobuf:"bytes,3,opt,name=address,proto3" json:"address,omitempty"`
+	Address            *string                `protobuf:"bytes,3,opt,name=address,proto3,oneof" json:"address,omitempty"`
 	ImageFileName      string                 `protobuf:"bytes,4,opt,name=image_file_name,json=imageFileName,proto3" json:"image_file_name,omitempty"`
 	Slug               *string                `protobuf:"bytes,5,opt,name=slug,proto3,oneof" json:"slug,omitempty"`
 	CategoryId         *string                `protobuf:"bytes,6,opt,name=category_id,json=categoryId,proto3,oneof" json:"category_id,omitempty"`
@@ -689,7 +689,7 @@ type EditCourseRequest struct {
 	DemoVideoStorage   *string                `protobuf:"bytes,13,opt,name=demo_video_storage,json=demoVideoStorage,proto3,oneof" json:"demo_video_storage,omitempty"`
 	DemoVideoSource    *string                `protobuf:"bytes,14,opt,name=demo_video_source,json=demoVideoSource,proto3,oneof" json:"demo_video_source,omitempty"`
 	Description        *string                `protobuf:"bytes,15,opt,name=description,proto3,oneof" json:"description,omitempty"`
-	Capacity           *int64                 `protobuf:"varint,16,opt,name=capacity,proto3,oneof" json:"capacity,omitempty"`
+	Capacity           *int32                 `protobuf:"varint,16,opt,name=capacity,proto3,oneof" json:"capacity,omitempty"`
 	Price              *string                `protobuf:"bytes,17,opt,name=price,proto3,oneof" json:"price,omitempty"`
 	Discount           *string                `protobuf:"bytes,18,opt,name=discount,proto3,oneof" json:"discount,omitempty"`
 	Certificate        *string                `protobuf:"bytes,19,opt,name=certificate,proto3,oneof" json:"certificate,omitempty"`
@@ -749,8 +749,8 @@ func (x *EditCourseRequest) GetName() string {
 }
 
 func (x *EditCourseRequest) GetAddress() string {
-	if x != nil {
-		return x.Address
+	if x != nil && x.Address != nil {
+		return *x.Address
 	}
 	return ""
 }
@@ -839,7 +839,7 @@ func (x *EditCourseRequest) GetDescription() string {
 	return ""
 }
 
-func (x *EditCourseRequest) GetCapacity() int64 {
+func (x *EditCourseRequest) GetCapacity() int32 {
 	if x != nil && x.Capacity != nil {
 		return *x.Capacity
 	}
@@ -1060,42 +1060,44 @@ var File_course_course_proto protoreflect.FileDescriptor
 
 const file_course_course_proto_rawDesc = "" +
 	"\n" +
-	"\x13course/course.proto\x12\x06course\x1a\x1acommon/base_response.proto\x1a\x1bbuf/validate/validate.proto\x1a google/protobuf/field_mask.proto\"\xc6\f\n" +
+	"\x13course/course.proto\x12\x06course\x1a\x1acommon/base_response.proto\x1a\x1bbuf/validate/validate.proto\x1a google/protobuf/field_mask.proto\"\xd7\f\n" +
 	"\x13CreateCourseRequest\x12\x1a\n" +
 	"\x02id\x18\x01 \x01(\tB\n" +
 	"\xbaH\ar\x05\x10\x01\x18\xff\x01R\x02id\x12\x1e\n" +
 	"\x04name\x18\x02 \x01(\tB\n" +
-	"\xbaH\ar\x05\x10\x01\x18\xff\x01R\x04name\x12\"\n" +
-	"\aaddress\x18\x03 \x01(\tB\b\xbaH\x05r\x03\x18\xe8\aR\aaddress\x122\n" +
+	"\xbaH\ar\x05\x10\x01\x18\xff\x01R\x04name\x12'\n" +
+	"\aaddress\x18\x03 \x01(\tB\b\xbaH\x05r\x03\x18\xe8\aH\x00R\aaddress\x88\x01\x01\x122\n" +
 	"\x0fimage_file_name\x18\x04 \x01(\tB\n" +
 	"\xbaH\ar\x05\x10\x01\x18\xff\x01R\rimageFileName\x12!\n" +
-	"\x04slug\x18\x05 \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\x00R\x04slug\x88\x01\x01\x12.\n" +
-	"\vcategory_id\x18\x06 \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\x01R\n" +
+	"\x04slug\x18\x05 \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\x01R\x04slug\x88\x01\x01\x12.\n" +
+	"\vcategory_id\x18\x06 \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\x02R\n" +
 	"categoryId\x88\x01\x01\x12.\n" +
-	"\vcourse_type\x18\a \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\x02R\n" +
+	"\vcourse_type\x18\a \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\x03R\n" +
 	"courseType\x88\x01\x01\x12#\n" +
-	"\x05title\x18\b \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\x03R\x05title\x88\x01\x01\x126\n" +
-	"\x0fseo_description\x18\t \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\x04R\x0eseoDescription\x88\x01\x01\x12)\n" +
+	"\x05title\x18\b \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\x04R\x05title\x88\x01\x01\x126\n" +
+	"\x0fseo_description\x18\t \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\x05R\x0eseoDescription\x88\x01\x01\x12)\n" +
 	"\bduration\x18\n" +
-	" \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\x05R\bduration\x88\x01\x01\x12)\n" +
-	"\btimezone\x18\v \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\x06R\btimezone\x88\x01\x01\x12+\n" +
-	"\tthumbnail\x18\f \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\aR\tthumbnail\x88\x01\x01\x12;\n" +
-	"\x12demo_video_storage\x18\r \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\bR\x10demoVideoStorage\x88\x01\x01\x129\n" +
-	"\x11demo_video_source\x18\x0e \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\tR\x0fdemoVideoSource\x88\x01\x01\x12/\n" +
-	"\vdescription\x18\x0f \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\n" +
-	"R\vdescription\x88\x01\x01\x12(\n" +
-	"\bcapacity\x18\x10 \x01(\x03B\a\xbaH\x04\"\x02(\x00H\vR\bcapacity\x88\x01\x01\x129\n" +
-	"\x05price\x18\x11 \x01(\tB\x1e\xbaH\x1br\x192\x17^[0-9]+(\\.[0-9]{1,2})?$H\fR\x05price\x88\x01\x01\x12?\n" +
-	"\bdiscount\x18\x12 \x01(\tB\x1e\xbaH\x1br\x192\x17^[0-9]+(\\.[0-9]{1,2})?$H\rR\bdiscount\x88\x01\x01\x12/\n" +
-	"\vcertificate\x18\x13 \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\x0eR\vcertificate\x88\x01\x01\x12\x1f\n" +
-	"\x03gna\x18\x14 \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\x0fR\x03gna\x88\x01\x01\x12?\n" +
-	"\x14message_for_reviewer\x18\x15 \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\x10R\x12messageForReviewer\x88\x01\x01\x12.\n" +
-	"\vis_approved\x18\x16 \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\x11R\n" +
+	" \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\x06R\bduration\x88\x01\x01\x12)\n" +
+	"\btimezone\x18\v \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\aR\btimezone\x88\x01\x01\x12+\n" +
+	"\tthumbnail\x18\f \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\bR\tthumbnail\x88\x01\x01\x12;\n" +
+	"\x12demo_video_storage\x18\r \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\tR\x10demoVideoStorage\x88\x01\x01\x129\n" +
+	"\x11demo_video_source\x18\x0e \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\n" +
+	"R\x0fdemoVideoSource\x88\x01\x01\x12/\n" +
+	"\vdescription\x18\x0f \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\vR\vdescription\x88\x01\x01\x12(\n" +
+	"\bcapacity\x18\x10 \x01(\x05B\a\xbaH\x04\x1a\x02(\x00H\fR\bcapacity\x88\x01\x01\x129\n" +
+	"\x05price\x18\x11 \x01(\tB\x1e\xbaH\x1br\x192\x17^[0-9]+(\\.[0-9]{1,2})?$H\rR\x05price\x88\x01\x01\x12?\n" +
+	"\bdiscount\x18\x12 \x01(\tB\x1e\xbaH\x1br\x192\x17^[0-9]+(\\.[0-9]{1,2})?$H\x0eR\bdiscount\x88\x01\x01\x12/\n" +
+	"\vcertificate\x18\x13 \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\x0fR\vcertificate\x88\x01\x01\x12\x1f\n" +
+	"\x03gna\x18\x14 \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\x10R\x03gna\x88\x01\x01\x12?\n" +
+	"\x14message_for_reviewer\x18\x15 \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\x11R\x12messageForReviewer\x88\x01\x01\x12.\n" +
+	"\vis_approved\x18\x16 \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\x12R\n" +
 	"isApproved\x88\x01\x01\x12%\n" +
-	"\x06status\x18\x17 \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\x12R\x06status\x88\x01\x01\x125\n" +
-	"\x0fcourse_level_id\x18\x18 \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\x13R\rcourseLevelId\x88\x01\x01\x12;\n" +
-	"\x12course_language_id\x18\x19 \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\x14R\x10courseLanguageId\x88\x01\x01\x122\n" +
-	"\rinstructor_id\x18\x1a \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\x15R\finstructorId\x88\x01\x01B\a\n" +
+	"\x06status\x18\x17 \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\x13R\x06status\x88\x01\x01\x125\n" +
+	"\x0fcourse_level_id\x18\x18 \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\x14R\rcourseLevelId\x88\x01\x01\x12;\n" +
+	"\x12course_language_id\x18\x19 \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\x15R\x10courseLanguageId\x88\x01\x01\x122\n" +
+	"\rinstructor_id\x18\x1a \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\x16R\finstructorId\x88\x01\x01B\n" +
+	"\n" +
+	"\b_addressB\a\n" +
 	"\x05_slugB\x0e\n" +
 	"\f_category_idB\x0e\n" +
 	"\f_course_typeB\b\n" +
@@ -1147,7 +1149,7 @@ const file_course_course_proto_rawDesc = "" +
 	"R\x10demoVideoStorage\x88\x01\x01\x12/\n" +
 	"\x11demo_video_source\x18\x0e \x01(\tH\vR\x0fdemoVideoSource\x88\x01\x01\x12%\n" +
 	"\vdescription\x18\x0f \x01(\tH\fR\vdescription\x88\x01\x01\x12\x1f\n" +
-	"\bcapacity\x18\x10 \x01(\x03H\rR\bcapacity\x88\x01\x01\x12\x19\n" +
+	"\bcapacity\x18\x10 \x01(\x05H\rR\bcapacity\x88\x01\x01\x12\x19\n" +
 	"\x05price\x18\x11 \x01(\tH\x0eR\x05price\x88\x01\x01\x12\x1f\n" +
 	"\bdiscount\x18\x12 \x01(\tH\x0fR\bdiscount\x88\x01\x01\x12%\n" +
 	"\vcertificate\x18\x13 \x01(\tH\x10R\vcertificate\x88\x01\x01\x12\x15\n" +
@@ -1204,42 +1206,44 @@ const file_course_course_proto_rawDesc = "" +
 	"\v_updated_atB\r\n" +
 	"\v_updated_byB\r\n" +
 	"\v_deleted_atB\x12\n" +
-	"\x10_image_file_name\"\xc4\f\n" +
+	"\x10_image_file_name\"\xd5\f\n" +
 	"\x11EditCourseRequest\x12\x1a\n" +
 	"\x02id\x18\x01 \x01(\tB\n" +
 	"\xbaH\ar\x05\x10\x01\x18\xff\x01R\x02id\x12\x1e\n" +
 	"\x04name\x18\x02 \x01(\tB\n" +
-	"\xbaH\ar\x05\x10\x01\x18\xff\x01R\x04name\x12\"\n" +
-	"\aaddress\x18\x03 \x01(\tB\b\xbaH\x05r\x03\x18\xe8\aR\aaddress\x122\n" +
+	"\xbaH\ar\x05\x10\x01\x18\xff\x01R\x04name\x12'\n" +
+	"\aaddress\x18\x03 \x01(\tB\b\xbaH\x05r\x03\x18\xe8\aH\x00R\aaddress\x88\x01\x01\x122\n" +
 	"\x0fimage_file_name\x18\x04 \x01(\tB\n" +
 	"\xbaH\ar\x05\x10\x01\x18\xff\x01R\rimageFileName\x12!\n" +
-	"\x04slug\x18\x05 \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\x00R\x04slug\x88\x01\x01\x12.\n" +
-	"\vcategory_id\x18\x06 \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\x01R\n" +
+	"\x04slug\x18\x05 \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\x01R\x04slug\x88\x01\x01\x12.\n" +
+	"\vcategory_id\x18\x06 \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\x02R\n" +
 	"categoryId\x88\x01\x01\x12.\n" +
-	"\vcourse_type\x18\a \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\x02R\n" +
+	"\vcourse_type\x18\a \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\x03R\n" +
 	"courseType\x88\x01\x01\x12#\n" +
-	"\x05title\x18\b \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\x03R\x05title\x88\x01\x01\x126\n" +
-	"\x0fseo_description\x18\t \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\x04R\x0eseoDescription\x88\x01\x01\x12)\n" +
+	"\x05title\x18\b \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\x04R\x05title\x88\x01\x01\x126\n" +
+	"\x0fseo_description\x18\t \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\x05R\x0eseoDescription\x88\x01\x01\x12)\n" +
 	"\bduration\x18\n" +
-	" \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\x05R\bduration\x88\x01\x01\x12)\n" +
-	"\btimezone\x18\v \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\x06R\btimezone\x88\x01\x01\x12+\n" +
-	"\tthumbnail\x18\f \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\aR\tthumbnail\x88\x01\x01\x12;\n" +
-	"\x12demo_video_storage\x18\r \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\bR\x10demoVideoStorage\x88\x01\x01\x129\n" +
-	"\x11demo_video_source\x18\x0e \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\tR\x0fdemoVideoSource\x88\x01\x01\x12/\n" +
-	"\vdescription\x18\x0f \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\n" +
-	"R\vdescription\x88\x01\x01\x12(\n" +
-	"\bcapacity\x18\x10 \x01(\x03B\a\xbaH\x04\"\x02(\x00H\vR\bcapacity\x88\x01\x01\x129\n" +
-	"\x05price\x18\x11 \x01(\tB\x1e\xbaH\x1br\x192\x17^[0-9]+(\\.[0-9]{1,2})?$H\fR\x05price\x88\x01\x01\x12?\n" +
-	"\bdiscount\x18\x12 \x01(\tB\x1e\xbaH\x1br\x192\x17^[0-9]+(\\.[0-9]{1,2})?$H\rR\bdiscount\x88\x01\x01\x12/\n" +
-	"\vcertificate\x18\x13 \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\x0eR\vcertificate\x88\x01\x01\x12\x1f\n" +
-	"\x03gna\x18\x14 \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\x0fR\x03gna\x88\x01\x01\x12?\n" +
-	"\x14message_for_reviewer\x18\x15 \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\x10R\x12messageForReviewer\x88\x01\x01\x12.\n" +
-	"\vis_approved\x18\x16 \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\x11R\n" +
+	" \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\x06R\bduration\x88\x01\x01\x12)\n" +
+	"\btimezone\x18\v \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\aR\btimezone\x88\x01\x01\x12+\n" +
+	"\tthumbnail\x18\f \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\bR\tthumbnail\x88\x01\x01\x12;\n" +
+	"\x12demo_video_storage\x18\r \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\tR\x10demoVideoStorage\x88\x01\x01\x129\n" +
+	"\x11demo_video_source\x18\x0e \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\n" +
+	"R\x0fdemoVideoSource\x88\x01\x01\x12/\n" +
+	"\vdescription\x18\x0f \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\vR\vdescription\x88\x01\x01\x12(\n" +
+	"\bcapacity\x18\x10 \x01(\x05B\a\xbaH\x04\x1a\x02(\x00H\fR\bcapacity\x88\x01\x01\x129\n" +
+	"\x05price\x18\x11 \x01(\tB\x1e\xbaH\x1br\x192\x17^[0-9]+(\\.[0-9]{1,2})?$H\rR\x05price\x88\x01\x01\x12?\n" +
+	"\bdiscount\x18\x12 \x01(\tB\x1e\xbaH\x1br\x192\x17^[0-9]+(\\.[0-9]{1,2})?$H\x0eR\bdiscount\x88\x01\x01\x12/\n" +
+	"\vcertificate\x18\x13 \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\x0fR\vcertificate\x88\x01\x01\x12\x1f\n" +
+	"\x03gna\x18\x14 \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\x10R\x03gna\x88\x01\x01\x12?\n" +
+	"\x14message_for_reviewer\x18\x15 \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\x11R\x12messageForReviewer\x88\x01\x01\x12.\n" +
+	"\vis_approved\x18\x16 \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\x12R\n" +
 	"isApproved\x88\x01\x01\x12%\n" +
-	"\x06status\x18\x17 \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\x12R\x06status\x88\x01\x01\x125\n" +
-	"\x0fcourse_level_id\x18\x18 \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\x13R\rcourseLevelId\x88\x01\x01\x12;\n" +
-	"\x12course_language_id\x18\x19 \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\x14R\x10courseLanguageId\x88\x01\x01\x122\n" +
-	"\rinstructor_id\x18\x1a \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\x15R\finstructorId\x88\x01\x01B\a\n" +
+	"\x06status\x18\x17 \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\x13R\x06status\x88\x01\x01\x125\n" +
+	"\x0fcourse_level_id\x18\x18 \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\x14R\rcourseLevelId\x88\x01\x01\x12;\n" +
+	"\x12course_language_id\x18\x19 \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\x15R\x10courseLanguageId\x88\x01\x01\x122\n" +
+	"\rinstructor_id\x18\x1a \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\x16R\finstructorId\x88\x01\x01B\n" +
+	"\n" +
+	"\b_addressB\a\n" +
 	"\x05_slugB\x0e\n" +
 	"\f_category_idB\x0e\n" +
 	"\f_course_typeB\b\n" +

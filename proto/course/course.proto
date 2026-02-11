@@ -19,7 +19,7 @@ service CourseService {
 message CreateCourseRequest {
   string id = 1 [(buf.validate.field).string = { min_len: 1, max_len: 255 }];
   string name = 2 [(buf.validate.field).string = { min_len: 1, max_len: 255 }];
-  string address = 3 [(buf.validate.field).string = { max_len: 1000 }];
+  optional string address = 3 [(buf.validate.field).string = { max_len: 1000 }];
   string image_file_name = 4 [(buf.validate.field).string = { min_len: 1, max_len: 255}];
   optional string slug = 5 [(buf.validate.field).string = { max_len: 255 }];
   optional string category_id = 6 [(buf.validate.field).string = { max_len: 255 }];
@@ -32,7 +32,7 @@ message CreateCourseRequest {
   optional string demo_video_storage = 13 [(buf.validate.field).string = { max_len: 255 }];
   optional string demo_video_source = 14 [(buf.validate.field).string = { max_len: 255 }];
   optional string description = 15 [(buf.validate.field).string = { max_len: 255 }];
-  optional int64 capacity = 16 [(buf.validate.field).int64.gte = 0];
+  optional int32 capacity = 16 [(buf.validate.field).int32.gte = 0];
   optional string price = 17 [(buf.validate.field).string = { pattern: "^[0-9]+(\\.[0-9]{1,2})?$" }];
   optional string discount = 18 [(buf.validate.field).string = { pattern: "^[0-9]+(\\.[0-9]{1,2})?$" }];
   optional string certificate = 19 [(buf.validate.field).string = { max_len: 255 }];
@@ -74,7 +74,7 @@ message DetailCourseResponse {
   optional string demo_video_storage = 13;
   optional string demo_video_source = 14;
   optional string description = 15;
-  optional int64 capacity = 16;
+  optional int32 capacity = 16;
   optional string price = 17;
   optional string discount = 18;
   optional string certificate = 19;
@@ -97,7 +97,7 @@ message DetailCourseResponse {
 message EditCourseRequest {
   string id = 1 [(buf.validate.field).string = { min_len: 1, max_len: 255 }];
   string name = 2 [(buf.validate.field).string = { min_len: 1, max_len: 255 }];
-  string address = 3 [(buf.validate.field).string = { max_len: 1000 }];
+  optional string address = 3 [(buf.validate.field).string = { max_len: 1000 }];
   string image_file_name = 4 [(buf.validate.field).string = { min_len: 1, max_len: 255 }];
   optional string slug = 5 [(buf.validate.field).string = { max_len: 255 }];
   optional string category_id = 6 [(buf.validate.field).string = { max_len: 255 }];
@@ -110,7 +110,7 @@ message EditCourseRequest {
   optional string demo_video_storage = 13 [(buf.validate.field).string = { max_len: 255 }];
   optional string demo_video_source = 14 [(buf.validate.field).string = { max_len: 255 }];
   optional string description = 15 [(buf.validate.field).string = { max_len: 255 }];
-  optional int64 capacity = 16 [(buf.validate.field).int64.gte = 0];
+  optional int32 capacity = 16 [(buf.validate.field).int32.gte = 0];
   optional string price = 17 [(buf.validate.field).string = { pattern: "^[0-9]+(\\.[0-9]{1,2})?$" }];
   optional string discount = 18 [(buf.validate.field).string = { pattern: "^[0-9]+(\\.[0-9]{1,2})?$" }];
   optional string certificate = 19 [(buf.validate.field).string = { max_len: 255 }];
